@@ -26,18 +26,19 @@
       padding: 60px 24px;
       position: relative;
       overflow: hidden;
+      cursor: none;
     }
     .hero-glow-1 {
       position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
       width: 500px; height: 500px;
       background: rgba(236, 72, 153, 0.12);
-      border-radius: 50%; filter: blur(80px); pointer-events: none;
+      border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 1;
     }
     .hero-glow-2 {
       position: absolute; bottom: -60px; right: 10%;
       width: 300px; height: 300px;
       background: rgba(139, 92, 246, 0.15);
-      border-radius: 50%; filter: blur(70px); pointer-events: none;
+      border-radius: 50%; filter: blur(70px); pointer-events: none; z-index: 1;
     }
     .hero-photo {
       width: 140px; height: 140px;
@@ -95,6 +96,16 @@
       border-color: rgba(192, 132, 252, 0.8);
       color: #ffffff;
       outline: none;
+    }
+    #hw-cursor {
+      display: inline-block;
+      color: #c084fc;
+      animation: hw-blink 1s step-end infinite;
+      margin-left: 1px;
+    }
+    @keyframes hw-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     /* ── SHARED ── */
@@ -195,18 +206,20 @@
 <body>
   <!-- HERO -->
   <section class="hero">
+    <canvas id="particle-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;"></canvas>
     <div class="hero-glow-1"></div>
     <div class="hero-glow-2"></div>
     <div class="hero-photo">
       <img src="HARRISON.jpeg" alt="Harrison Keen" />
     </div>
     <div class="hero-name">Harrison Keen</div>
-    <p class="hero-tagline">Actor.&nbsp; Software Developer.&nbsp; Innovator.</p>
+    <p class="hero-tagline"><span id="hw-text"></span><span id="hw-cursor">|</span></p>
     <div class="hero-buttons">
       <a href="https://www.imdb.com/name/nm15486957/" class="btn-secondary" target="_blank" rel="noopener">IMDb &#x2197;</a>
       <a href="/canvas" class="btn-primary">Canvas Work</a>
       <a href="https://saffrascripts.com" class="btn-secondary" target="_blank" rel="noopener">Saffra Scripts &#x2197;</a>
     </div>
+    <canvas id="star-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:10;pointer-events:none;"></canvas>
   </section>
 
   <!-- WORK -->
@@ -298,5 +311,193 @@
     </div>
     <div class="footer-copy">&copy; 2026 Harrison Keen</div>
   </footer>
+  <script>
+    (function () {
+      var hero = document.querySelector('.hero');
+
+      /* ── Particle Field ── */
+      var pCanvas = document.getElementById('particle-canvas');
+      var pCtx = pCanvas.getContext('2d');
+      var particles = [];
+      var pMouse = { x: -9999, y: -9999 };
+
+      function spawnParticles() {
+        var count = Math.round((pCanvas.width * pCanvas.height) / 7000);
+        var colors = ['#8b5cf6', '#c084fc', '#ec4899'];
+        particles = [];
+        for (var i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * pCanvas.width,
+            y: Math.random() * pCanvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            r: Math.random() * 1.5 + 1,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            opacity: 0.4 + Math.random() * 0.2
+          });
+        }
+      }
+
+      function animateParticles() {
+        pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+        var i, j, p, dx, dy, d, f, spd;
+
+        for (i = 0; i < particles.length; i++) {
+          p = particles[i];
+          dx = p.x - pMouse.x;
+          dy = p.y - pMouse.y;
+          d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 90 && d > 0) {
+            f = (90 - d) / 90 * 0.8;
+            p.vx += (dx / d) * f;
+            p.vy += (dy / d) * f;
+          }
+          p.vx *= 0.97;
+          p.vy *= 0.97;
+          spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+          if (spd > 2) { p.vx = p.vx / spd * 2; p.vy = p.vy / spd * 2; }
+          p.x = (p.x + p.vx + pCanvas.width) % pCanvas.width;
+          p.y = (p.y + p.vy + pCanvas.height) % pCanvas.height;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          pCtx.globalAlpha = p.opacity;
+          pCtx.fillStyle = p.color;
+          pCtx.fill();
+        }
+        pCtx.globalAlpha = 1;
+
+        for (i = 0; i < particles.length; i++) {
+          for (j = i + 1; j < particles.length; j++) {
+            dx = particles[i].x - particles[j].x;
+            dy = particles[i].y - particles[j].y;
+            d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 100) {
+              pCtx.beginPath();
+              pCtx.strokeStyle = 'rgba(192, 132, 252, ' + ((1 - d / 100) * 0.15) + ')';
+              pCtx.lineWidth = 1;
+              pCtx.moveTo(particles[i].x, particles[i].y);
+              pCtx.lineTo(particles[j].x, particles[j].y);
+              pCtx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animateParticles);
+      }
+
+      /* ── Typewriter ── */
+      var phrases = [
+        'Actor', 'Software Developer', 'Innovator', 'AI Builder',
+        'Filmmaker', 'Tech Enthusiast', 'Highly Delusional',
+        "Thinks He's A Comedian", 'Sometimes An Idiot', ':)'
+      ];
+      var hwText = document.getElementById('hw-text');
+      var pIdx = 0, cIdx = 0, deleting = false;
+
+      function tick() {
+        var word = phrases[pIdx];
+        if (!deleting) {
+          cIdx++;
+          hwText.textContent = word.slice(0, cIdx);
+          if (cIdx === word.length) { deleting = true; setTimeout(tick, 1400); return; }
+          setTimeout(tick, 65);
+        } else {
+          cIdx--;
+          hwText.textContent = word.slice(0, cIdx);
+          if (cIdx === 0) {
+            deleting = false;
+            pIdx = (pIdx + 1) % phrases.length;
+            setTimeout(tick, 300);
+            return;
+          }
+          setTimeout(tick, 35);
+        }
+      }
+
+      /* ── Star Cursor ── */
+      var sCanvas = document.getElementById('star-canvas');
+      var sCtx = sCanvas.getContext('2d');
+      var trail = [];
+      var TRAIL_LEN = 28;
+      var starPos = null;
+      var rafId = null;
+
+      function drawStar(x, y) {
+        var outer = 14, inner = 6, pts = 5, i, angle, r, px, py;
+        sCtx.beginPath();
+        for (i = 0; i < pts * 2; i++) {
+          angle = (i * Math.PI / pts) - Math.PI / 2;
+          r = i % 2 === 0 ? outer : inner;
+          px = x + Math.cos(angle) * r;
+          py = y + Math.sin(angle) * r;
+          if (i === 0) sCtx.moveTo(px, py); else sCtx.lineTo(px, py);
+        }
+        sCtx.closePath();
+        var g = sCtx.createRadialGradient(x, y, 0, x, y, outer);
+        g.addColorStop(0, '#fff7ed');
+        g.addColorStop(1, '#f97316');
+        sCtx.fillStyle = g;
+        sCtx.fill();
+      }
+
+      function renderStar() {
+        sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+        if (!starPos) { rafId = null; return; }
+        var i, t;
+        for (i = 1; i < trail.length; i++) {
+          t = i / trail.length;
+          sCtx.beginPath();
+          sCtx.lineWidth = 0.5 + t * 3;
+          sCtx.lineCap = 'round';
+          sCtx.strokeStyle = 'rgba(251, 191, 36, ' + (t * 0.9) + ')';
+          sCtx.moveTo(trail[i - 1].x, trail[i - 1].y);
+          sCtx.lineTo(trail[i].x, trail[i].y);
+          sCtx.stroke();
+        }
+        drawStar(starPos.x, starPos.y);
+        rafId = requestAnimationFrame(renderStar);
+      }
+
+      /* ── Shared event handlers ── */
+      hero.addEventListener('mousemove', function (e) {
+        var rect = hero.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        pMouse.x = x;
+        pMouse.y = y;
+        starPos = { x: x, y: y };
+        trail.push({ x: x, y: y });
+        if (trail.length > TRAIL_LEN) trail.shift();
+        if (!rafId) rafId = requestAnimationFrame(renderStar);
+      });
+
+      hero.addEventListener('mouseenter', function () {
+        if (!rafId) rafId = requestAnimationFrame(renderStar);
+      });
+
+      hero.addEventListener('mouseleave', function () {
+        pMouse.x = -9999;
+        pMouse.y = -9999;
+        starPos = null;
+        trail = [];
+        sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      });
+
+      /* ── Resize both canvases ── */
+      function onResize() {
+        pCanvas.width = hero.offsetWidth;
+        pCanvas.height = hero.offsetHeight;
+        spawnParticles();
+        sCanvas.width = hero.offsetWidth;
+        sCanvas.height = hero.offsetHeight;
+      }
+
+      window.addEventListener('resize', onResize);
+      onResize();
+      animateParticles();
+      setTimeout(tick, 600);
+    })();
+  </script>
 </body>
 </html>
