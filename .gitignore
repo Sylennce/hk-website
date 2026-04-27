@@ -1,0 +1,7 @@
+# Personal assets — keep off GitHub
+HARRISON.jpeg
+*.pdf
+
+# Claude Code internals
+.superpowers/
+docs/superpowers/
