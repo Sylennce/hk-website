@@ -460,7 +460,7 @@
         pMouse.y = y;
         starPos = { x: x, y: y };
         lastMoveTime = Date.now();
-        trail.push({ x: x, y: y });
+        trail.push({ x: x + 12, y: y + 12 });
         if (trail.length > TRAIL_LEN) trail.shift();
         if (!rafId) rafId = requestAnimationFrame(renderStar);
       });
