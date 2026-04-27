@@ -1,0 +1,7 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/canvas"
+  to = "/canvas/index.html"
+  status = 200
