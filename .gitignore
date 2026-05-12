@@ -1,6 +1,11 @@
 # Personal assets — keep off GitHub
 *.pdf
+!acting/cv.pdf
 
-# Claude Code internals
+# Claude Code internals / local docs
 .superpowers/
-docs/superpowers/
+docs/
+
+# Planning / scratch files
+hero-effects-prompt.md
+acting/cv.html

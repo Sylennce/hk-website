@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Harrison Keen — Software Developer. Backend, full-stack, and AI tooling. Open to roles in Vancouver.">
+  <title>Harrison Keen — Tech</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a14;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #fff;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 14px 60px;
+      gap: 28px;
+    }
+    .site-nav .nav-link {
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .site-nav .nav-link:hover { color: #fff; }
+    .site-nav .nav-active { color: #c084fc !important; }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(160deg, #1a0533 0%, #0d1a3a 60%, #0a0a14 100%);
+      padding: 80px 32px;
+      border-bottom: 1px solid rgba(192, 132, 252, 0.1);
+    }
+    .page-hero-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .page-eyebrow {
+      color: #c084fc;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .page-hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #ffffff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-hero-sub {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 36px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      color: #fff; padding: 12px 28px;
+      font-size: 13px; font-weight: 700;
+      border-radius: 30px; text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary {
+      border: 1px solid rgba(192, 132, 252, 0.4);
+      color: #c084fc; padding: 12px 28px;
+      font-size: 13px; font-weight: 600;
+      border-radius: 30px; text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-secondary:hover { border-color: rgba(192, 132, 252, 0.8); color: #fff; }
+
+    /* ── SHARED ── */
+    .sec-label {
+      color: #c084fc;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 72px 32px;
+    }
+    .section h2 {
+      font-size: clamp(26px, 3.5vw, 36px);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 14px;
+      margin-bottom: 48px;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── LOOKING FOR ── */
+    .looking-body { display: flex; flex-direction: column; gap: 16px; }
+    .looking-body p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .looking-greeting {
+      color: rgba(255, 255, 255, 0.35) !important;
+      font-size: 13px !important;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .looking-sign-off {
+      color: rgba(255, 255, 255, 0.35) !important;
+      font-size: 13px !important;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-item {
+      display: flex; gap: 20px;
+      margin-bottom: 36px; padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .exp-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      margin-top: 6px; flex-shrink: 0;
+    }
+    .exp-body { flex: 1; }
+    .exp-role { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+    .exp-company { color: #c084fc; font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .exp-date { color: rgba(255, 255, 255, 0.35); font-size: 12px; margin-bottom: 10px; }
+    .exp-desc { color: rgba(255, 255, 255, 0.55); font-size: 13px; line-height: 1.7; }
+
+    /* ── SKILLS ── */
+    .skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 5px 12px; border-radius: 20px; font-size: 12px;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 640px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+    .project-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.05));
+      border: 1px solid rgba(192, 132, 252, 0.15);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .card-label {
+      color: #c084fc;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .project-card h3 { font-size: 19px; font-weight: 800; margin-bottom: 10px; }
+    .project-card p {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 13px; line-height: 1.7; margin-bottom: 20px;
+    }
+    .project-card a {
+      font-size: 12px; font-weight: 700;
+      color: #c084fc; text-decoration: none;
+    }
+    .project-card a:hover { color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 40px 24px; text-align: center;
+    }
+    .social-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .social-links a { color: rgba(255, 255, 255, 0.4); font-size: 13px; text-decoration: none; }
+    .social-links a:hover { color: #c084fc; }
+    .footer-copy { color: rgba(255, 255, 255, 0.2); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-nav">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/acting/" class="nav-link">Acting</a>
+    <a href="/tech/" class="nav-link nav-active">Tech</a>
+  </header>
+
+  <!-- HERO -->
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="page-eyebrow">Tech Enthusiast</span>
+      <h1>Harrison Keen</h1>
+      <p class="page-hero-sub">Frontend, backend, full-stack, and AI tooling. I&#8217;ve built production platforms solo and shipped inside enterprise teams at Channel Nine and Woolworths. Now open to roles in Vancouver.</p>
+      <div class="hero-actions">
+        <a href="mailto:keen_ha@outlook.com" class="btn-primary">Get in touch</a>
+        <a href="https://www.linkedin.com/in/harrisonkeen/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn &#x2197;</a>
+        <a href="/harrison_keen_resume.pdf" class="btn-secondary" target="_blank" rel="noopener">Resume &#x2197;</a>
+        <a href="/canvas" class="btn-secondary">Canvas Work &#x2192;</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOOKING FOR -->
+  <section class="section" style="padding-bottom: 0;">
+    <div class="sec-label">What I&#8217;m looking for</div>
+    <h2>Open to roles in Vancouver</h2>
+    <p class="section-sub">Backend, full-stack, and AI tooling — here&#8217;s what I bring.</p>
+    <div class="looking-body">
+      <p class="looking-greeting">Hi there,</p>
+      <p>Last year I built Saffra Scripts &#8212; a live platform where a user submits a handful of prompts and receives a complete, 100-page movie screenplay in their email within 24 hours. I designed the frontend, engineered the multi-step AI automated backend, and shipped it solo. It works, it&#8217;s live, and people have used it. Nothing like this existed before I made it. And I mention this because it&#8217;s a decent snapshot of my innovation ability, problem-solving skills and desire to build cool things &#8212; which are highly transferable traits.</p>
+      <p>I&#8217;m interested in working somewhere that wants to innovate. Somewhere where creating an automated workflow to improve efficiency or using a newly released AI tool is encouraged rather than held back by corporate slowness. That&#8217;s the kind of environment I want to be in.</p>
+      <p>I&#8217;m looking for something around 30+ hours a week with a degree of flexibility, as I also work as an actor. Ideally, I&#8217;m looking for an in-person role at a smaller company or startup where I can contribute across different areas, and importantly, learn valuable skills along the way. A good community culture is also desired.</p>
+      <p>I&#8217;m relocating to Vancouver in June and would love to connect &#8212; looking forward to hearing back from you.</p>
+      <p class="looking-sign-off">Cheers,<br>Harrison Keen</p>
+    </div>
+  </section>
+
+  <hr class="divider" style="margin-top: 72px;">
+
+  <!-- EXPERIENCE -->
+  <section class="section">
+    <div class="sec-label">Experience</div>
+    <h2>Background</h2>
+    <p class="section-sub">Co-op scholar, enterprise intern, and shipping-grade developer.</p>
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-body">
+        <div class="exp-role">Website Designer</div>
+        <div class="exp-company">The King&#8217;s School &middot; Sydney, Australia</div>
+        <div class="exp-date">June 2024 &#8211; Present</div>
+        <div class="exp-desc">Designing, building, and maintaining internal web platforms and digital learning environments within Canvas LMS using DesignPlus for custom UI components.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-body">
+        <div class="exp-role">EUC Engineering Intern</div>
+        <div class="exp-company">Woolworths Group &middot; SOI EUC Engineering</div>
+        <div class="exp-date">January 2022 &#8211; July 2022</div>
+        <div class="exp-desc">Supported enterprise end-user computing infrastructure across corporate and BYOD devices. Systems administration, endpoint management, and internal IT tooling at scale.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-body">
+        <div class="exp-role">Software Development Intern</div>
+        <div class="exp-company">Channel Nine &middot; 9Now Streaming</div>
+        <div class="exp-date">January 2021 &#8211; July 2021</div>
+        <div class="exp-desc">Contributed to the 9Now streaming platform in a fast-paced production team. Onboarded rapidly into an unfamiliar codebase and delivered production-grade work.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-body">
+        <div class="exp-role">Bachelor of Information Technology (Co-op Scholarship)</div>
+        <div class="exp-company">University of Technology Sydney</div>
+        <div class="exp-date">Graduated November 2022</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SKILLS -->
+  <section class="section">
+    <div class="sec-label">Skills</div>
+    <h2>What I work with</h2>
+    <p class="section-sub">Languages, tools, and platforms I&#8217;ve shipped production code with.</p>
+    <div class="skills-tags">
+      <span class="skill-tag">JavaScript</span>
+      <span class="skill-tag">React</span>
+      <span class="skill-tag">HTML &amp; CSS</span>
+      <span class="skill-tag">SQL</span>
+      <span class="skill-tag">Java</span>
+      <span class="skill-tag">REST APIs</span>
+      <span class="skill-tag">n8n</span>
+      <span class="skill-tag">Claude API</span>
+      <span class="skill-tag">Canvas LMS</span>
+      <span class="skill-tag">Cloudflare</span>
+      <span class="skill-tag">PowerShell</span>
+      <span class="skill-tag">Jira</span>
+      <span class="skill-tag">Git</span>
+      <span class="skill-tag">Netlify</span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PROJECTS -->
+  <section class="section">
+    <div class="sec-label">Projects</div>
+    <h2>Things I&#8217;ve built</h2>
+    <p class="section-sub">Live products and portfolio pieces.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="card-label">AI Platform</div>
+        <h3>Saffra Scripts</h3>
+        <p>Solo-built AI-powered SaaS that generates a complete 100-page movie screenplay from six user inputs. Live and in use, end-to-end automated with n8n and the Claude API.</p>
+        <a href="https://saffrascripts.com" target="_blank" rel="noopener">Visit site &#x2197;</a>
+      </div>
+      <div class="project-card">
+        <div class="card-label">LMS Automation</div>
+        <h3>Canvas Work</h3>
+        <p>A boutique automated pipeline service that takes digital material &#8212; PDFs, Word docs, websites &#8212; and converts them into structured Canvas LMS content.</p>
+        <a href="/canvas">Want to see more &#x2192;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-links">
+      <a href="mailto:keen_ha@outlook.com">Email</a>
+      <a href="https://www.linkedin.com/in/harrisonkeen/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/harrison_keen_/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://github.com/HazzRK" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Harrison Keen</div>
+  </footer>
+
+</body>
+</html>

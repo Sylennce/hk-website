@@ -5,3 +5,13 @@
   from = "/canvas"
   to = "/canvas/index.html"
   status = 200
+
+[[redirects]]
+  from = "/tech"
+  to = "/tech/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/acting"
+  to = "/acting/index.html"
+  status = 200

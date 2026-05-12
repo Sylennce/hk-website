@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Harrison Keen — Actor. Film, TV, and stage credits. Vancouver based. Internationally cast.">
+  <title>Harrison Keen — Actor</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a14;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #fff;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 14px 60px;
+      gap: 28px;
+    }
+    .site-nav .nav-link {
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .site-nav .nav-link:hover { color: #fff; }
+    .site-nav .nav-active { color: #c084fc !important; }
+
+    /* ── HERO — 460px, full-bleed ── */
+    .hero {
+      position: relative;
+      height: 460px;
+      width: 100%;
+      background: #0c0907;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.048) 1px, transparent 1px);
+      background-size: 24px 24px;
+      z-index: 0;
+    }
+    .hero-glow {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-glow-center {
+      width: 520px; height: 520px;
+      left: 42%; top: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(160,78,8,0.18), rgba(110,44,4,0.07) 60%, transparent);
+      z-index: 1;
+    }
+    .hero-glow-bl {
+      width: 400px; height: 400px;
+      left: -80px; bottom: -80px;
+      background: radial-gradient(circle, rgba(100,36,210,0.22), transparent 70%);
+      z-index: 1;
+    }
+    .hero-glow-tr {
+      width: 260px; height: 260px;
+      right: 4%; top: -50px;
+      background: radial-gradient(circle, rgba(236,72,153,0.12), transparent 70%);
+      z-index: 1;
+    }
+    .hero-photo {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+    .hero-photo-left {
+      width: 172px; height: 342px;
+      top: 42px; left: 52%;
+      transform: rotate(-2deg);
+      object-position: 40% top;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-photo-right {
+      width: 164px; height: 328px;
+      top: 48px; left: 66%;
+      transform: rotate(3deg);
+      object-position: center top;
+      z-index: 3;
+      border: 1px solid rgba(192,132,252,0.2);
+      box-shadow: 0 0 40px rgba(139,92,246,0.25);
+    }
+    .hero-text {
+      position: absolute;
+      bottom: 46px; left: 22%;
+      width: 248px;
+      z-index: 20;
+    }
+    .hero-actor-tag {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: #a78bfa;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .hero-actor-tag::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, #8b5cf6, transparent);
+    }
+    .hero-name {
+      font-size: 56px; font-weight: 900;
+      letter-spacing: -2.5px; line-height: 0.85;
+      background: linear-gradient(180deg, #fff 40%, rgba(192,132,252,0.6));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(139,92,246,0.4));
+      margin-bottom: 14px;
+    }
+    .hero-divider {
+      width: 36px; height: 2px;
+      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      margin-bottom: 10px; border-radius: 2px;
+    }
+    .hero-tagline {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      white-space: nowrap; margin-bottom: 16px;
+    }
+    .hero-buttons { display: flex; gap: 8px; align-items: center; }
+    .btn-instagram {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; border-radius: 22px;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      color: #fff; font-size: 12px; font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(131,58,180,0.4);
+      letter-spacing: 0.2px;
+    }
+    .btn-ghost {
+      display: inline-block;
+      padding: 9px 18px; border-radius: 22px;
+      background: transparent; color: #c084fc;
+      font-size: 12px; font-weight: 600;
+      border: 1px solid rgba(192,132,252,0.35);
+      text-decoration: none;
+    }
+    .btn-ghost:hover { border-color: rgba(192,132,252,0.7); color: #e9d5ff; }
+
+    /* ── SECTIONS ── */
+    .sec {
+      padding: 64px 60px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .sec-label {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: #a78bfa;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 32px;
+    }
+    .sec-label::after {
+      content: ''; flex: 1; max-width: 80px; height: 1px;
+      background: linear-gradient(90deg, #8b5cf6, transparent);
+    }
+
+    /* ── REEL — centred pair ── */
+    .reel-duo {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 20px;
+      height: 340px;
+    }
+    .reel-showreel-wrap {
+      aspect-ratio: 16/9;
+      height: 100%;
+      flex-shrink: 0;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0d0d1a;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .reel-showreel-wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .reel-vertical-wrap {
+      aspect-ratio: 9/16;
+      height: 100%;
+      flex-shrink: 0;
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0d0d1a;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .reel-vertical-wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .reel-vertical-wrap video:-webkit-full-screen { object-fit: contain; }
+    .reel-vertical-wrap video:-moz-full-screen { object-fit: contain; }
+    .reel-vertical-wrap video:fullscreen { object-fit: contain; }
+    .reel-vertical-glow {
+      position: absolute;
+      bottom: -16px; left: 50%; transform: translateX(-50%);
+      width: 140px; height: 48px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.4), transparent 70%);
+      pointer-events: none;
+    }
+    .reel-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(10,10,20,0.65);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 5px 12px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1px;
+      color: rgba(255,255,255,0.75);
+      z-index: 1;
+    }
+
+    /* Stats row */
+    .reel-stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 56px;
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .reel-stat { text-align: center; }
+    .reel-stat-num {
+      font-size: 36px; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, #c084fc, #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .reel-stat-label { font-size: 14px; font-weight: 700; margin-top: 6px; }
+    .reel-stat-sub { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+    .reel-stat-flags { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; line-height: 1.8; }
+    .award-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.08));
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.75);
+      margin-top: 6px; white-space: nowrap;
+    }
+    .award-event { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 5px; }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .gallery-col {
+      flex: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+    }
+    .gallery-img {
+      width: 100%; height: auto; display: block;
+      border-radius: 10px;
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      object-fit: cover;
+    }
+
+    /* ── CREDITS — 3 columns ── */
+    .credits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .credits-category {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; color: #a78bfa;
+      text-transform: uppercase;
+      margin-bottom: 10px; margin-top: 28px;
+    }
+    .credits-category:first-child { margin-top: 0; }
+    .credit-row {
+      display: flex;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      align-items: baseline;
+    }
+    .credit-year { font-size: 12px; color: #a78bfa; flex-shrink: 0; min-width: 44px; }
+    .credit-body { flex: 1; min-width: 0; }
+    .credit-title { font-size: 13px; font-weight: 700; line-height: 1.35; }
+    .credit-char { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+    /* ── DOWNLOAD CV ── */
+    .cv-section {
+      padding: 56px 60px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-download-cv {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-decoration: none;
+      box-shadow: 0 4px 28px rgba(139,92,246,0.45);
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .btn-download-cv:hover {
+      box-shadow: 0 6px 36px rgba(139,92,246,0.65);
+      transform: translateY(-1px);
+    }
+    .cv-section-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .social-links {
+      display: flex; gap: 16px; justify-content: center;
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .social-links a {
+      color: rgba(255,255,255,0.4); font-size: 13px; text-decoration: none;
+    }
+    .social-links a:hover { color: #c084fc; }
+    .footer-copy { color: rgba(255,255,255,0.2); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="site-nav">
+  <a href="/" class="nav-link">Home</a>
+  <a href="/acting/" class="nav-link nav-active">Acting</a>
+  <a href="/tech/" class="nav-link">Tech</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow hero-glow-center"></div>
+  <div class="hero-glow hero-glow-bl"></div>
+  <div class="hero-glow hero-glow-tr"></div>
+
+  <img class="hero-photo hero-photo-left"
+    src="resources/HARRISON KEEN 4.jpeg"
+    alt="">
+  <img class="hero-photo hero-photo-right"
+    src="resources/HARRISON KEEN 2.jpeg"
+    alt="">
+
+  <div class="hero-text">
+    <div class="hero-actor-tag">Actor</div>
+    <div class="hero-name">Harrison<br>Keen</div>
+    <div class="hero-divider"></div>
+    <div class="hero-tagline">Vancouver based. Internationally cast.</div>
+    <div class="hero-buttons">
+      <a href="https://www.instagram.com/harrison_keen_/" class="btn-instagram" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.imdb.com/name/nm15486957/" class="btn-ghost" target="_blank" rel="noopener">IMDb &#x2197;</a>
+    </div>
+  </div>
+</section>
+
+<!-- REEL -->
+<section class="sec" id="reel">
+  <div class="sec-label">Reels</div>
+
+  <div class="reel-duo">
+    <div class="reel-showreel-wrap">
+      <span class="reel-badge">SHOWREEL</span>
+      <video muted autoplay loop playsinline controls>
+        <source src="resources/Showreel_HarrisonKeen.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="reel-vertical-wrap">
+      <span class="reel-badge">VERTICAL REEL</span>
+      <video muted autoplay loop playsinline controls>
+        <source src="resources/VerticalReel_HarrisonKeen.mp4" type="video/mp4">
+      </video>
+      <div class="reel-vertical-glow"></div>
+    </div>
+  </div>
+
+  <div class="reel-stats-row">
+    <div class="reel-stat">
+      <div class="reel-stat-num">14+</div>
+      <div class="reel-stat-label">Vertical Short-Dramas</div>
+      <div class="reel-stat-sub">Filmed &amp; released internationally</div>
+    </div>
+    <div class="reel-stat">
+      <div class="reel-stat-label">Filmed in</div>
+      <div class="reel-stat-flags">&#x1F1E6;&#x1F1FA; Australia<br>&#x1F1E8;&#x1F1F3; China<br>&#x1F1F9;&#x1F1F7; Turkey</div>
+    </div>
+    <div class="reel-stat">
+      <div class="reel-stat-label">Nominated</div>
+      <div class="award-pill">&#x1F3C6; Male Rising Star &mdash; 2025</div>
+      <div class="award-event">Vertical Drama Love Fan Awards</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="sec">
+  <div class="sec-label">Photos</div>
+  <div class="gallery-grid">
+    <!-- Col 1 -->
+    <div class="gallery-col">
+      <img class="gallery-img" src="resources/HARRISON KEEN 2.jpeg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/IMG_1906.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/IMG_1941.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/scaledDown.JPG" alt="Harrison Keen">
+    </div>
+    <!-- Col 2 -->
+    <div class="gallery-col">
+      <img class="gallery-img" src="resources/HARRISON KEEN 1.jpeg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/DSC07561.jpg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/IMG_1820.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/HARRISON KEEN 3.jpeg" alt="Harrison Keen">
+    </div>
+    <!-- Col 3 -->
+    <div class="gallery-col">
+      <img class="gallery-img" src="resources/HARRISON KEEN 4.jpeg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/IMG_1949.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/DSC08433.jpg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/wormhole.png" alt="Harrison Keen">
+    </div>
+    <!-- Col 4 -->
+    <div class="gallery-col">
+      <img class="gallery-img" src="resources/HARRISON 457.jpeg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/IMG_1783_cropped.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/_MRC8528.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/IMG_2006.JPG" alt="Harrison Keen">
+    </div>
+  </div>
+</section>
+
+<!-- CREDITS -->
+<section class="sec">
+  <div class="sec-label">Credits</div>
+  <div class="credits-grid">
+
+    <!-- LEFT: Feature Film + Vertical Short-Dramas -->
+    <div>
+      <div class="credits-category">Feature Film</div>
+      <div class="credit-row">
+        <span class="credit-year">2026</span>
+        <div class="credit-body"><div class="credit-title">Algorithm</div><div class="credit-char">Danny Streeter</div></div>
+      </div>
+
+      <div class="credits-category">Vertical Short-Drama</div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">The Duel</div><div class="credit-char">Harrison</div></div></div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">Superstar</div><div class="credit-char">Aaron Myers</div></div></div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">Reborn at 18: The Great Grandma Takes Charge</div><div class="credit-char">Ryan Ashford</div></div></div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">My Billionaire Husband Is Stolen by My Bestie</div><div class="credit-char">Jack</div></div></div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">Poolwatch</div><div class="credit-char">Anthony's Man-Crush</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">The Summer I Turned Bad</div><div class="credit-char">Dale</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Runaway Prince's Secret Vacation</div><div class="credit-char">Benji</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Heiress Returns Boss's Defense and Love</div><div class="credit-char">Daniel Roth</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Flash Marriage to My Billionaire Hobo Hubby</div><div class="credit-char">Mike</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Reborn to Find I Am the Mogul's Lost Love</div><div class="credit-char">Jimmy Dupont</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">The Mafia's Unwanted Blind Savior</div><div class="credit-char">Zed</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">The Heiress Blacklisted Her Husband</div><div class="credit-char">Thomas Wilson</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">Daddy's Best Friend Made Me His Billion Dollar Wife</div><div class="credit-char">Michael Lambert</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">Contract Marriage Before Election</div><div class="credit-char">Elliot Hill</div></div></div>
+    </div>
+
+    <!-- MIDDLE: Short Films + Voice Overs -->
+    <div>
+      <div class="credits-category">Short Film</div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">No Fear in the Ring</div><div class="credit-char">Caleb</div></div></div>
+      <div class="credit-row"><span class="credit-year">2026</span><div class="credit-body"><div class="credit-title">Red Eye</div><div class="credit-char">Andres</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Happy Hour</div><div class="credit-char">The Robber</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">The One Left Behind</div><div class="credit-char">Charlie</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">The Return</div><div class="credit-char">Edward</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Rush Helm</div><div class="credit-char">Ross / Narrator</div></div></div>
+      <div class="credit-row"><span class="credit-year">2023</span><div class="credit-body"><div class="credit-title">The Bystander Effect</div><div class="credit-char">Clyde</div></div></div>
+      <div class="credit-row"><span class="credit-year">2023</span><div class="credit-body"><div class="credit-title">The Barber</div><div class="credit-char">Employee (Monster)</div></div></div>
+
+      <div class="credits-category">Voice Over</div>
+      <div class="credit-row"><span class="credit-year">2025&ndash;26</span><div class="credit-body"><div class="credit-title">Stranger Cases</div><div class="credit-char">Agent Ethan Hayes</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">Welcome to Fosters (Neon Inkwell Collection)</div><div class="credit-char">Mark</div></div></div>
+    </div>
+
+    <!-- RIGHT: Commercials + Theatre -->
+    <div>
+      <div class="credits-category">Commercial</div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">SERVD Cards Social Media Campaign</div><div class="credit-char">Boyfriend</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">Esky Promotion</div><div class="credit-char">Male Character</div></div></div>
+      <div class="credit-row"><span class="credit-year">2025</span><div class="credit-body"><div class="credit-title">WD-40 No Vac Promotion</div><div class="credit-char">Male Character</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">eBay &times; TikTok &lsquo;Seen It All&rsquo; Campaign</div><div class="credit-char">Charlie</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">Finder &lsquo;Uhhh-Huh!&rsquo; Sea Urchin Ad</div><div class="credit-char">Jacob</div></div></div>
+      <div class="credit-row"><span class="credit-year">2024</span><div class="credit-body"><div class="credit-title">Cochlear Odyssey</div><div class="credit-char">Graduating Grandson</div></div></div>
+
+      <div class="credits-category">Theatre</div>
+      <div class="credit-row"><span class="credit-year">2024&ndash;25</span><div class="credit-body"><div class="credit-title">Sons of Sun</div><div class="credit-char">Elvis Presley, Johnny Cash, Carl Perkins &amp; Jerry Lee Lewis</div></div></div>
+      <div class="credit-row"><span class="credit-year">2023</span><div class="credit-body"><div class="credit-title">Mystery of the Blue Bloodhound</div><div class="credit-char">Mark Barrens</div></div></div>
+      <div class="credit-row"><span class="credit-year">2023</span><div class="credit-body"><div class="credit-title">Murder by Invitation</div><div class="credit-char">Mr Dawes</div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DOWNLOAD CV -->
+<div class="cv-section">
+  <a href="cv.pdf" download="HarrisonKeen_CV.pdf" class="btn-download-cv">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download CV
+  </a>
+  <span class="cv-section-label">PDF · Acting CV</span>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="social-links">
+    <a href="mailto:keen_ha@outlook.com">Email</a>
+    <a href="https://www.linkedin.com/in/harrisonkeen/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.instagram.com/harrison_keen_/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.imdb.com/name/nm15486957/" target="_blank" rel="noopener">IMDb</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 Harrison Keen</div>
+</footer>
+
+</body>
+</html>
