@@ -275,6 +275,92 @@
       object-fit: cover;
     }
 
+    /* ── CLIPS CAROUSEL — pure CSS, no JS ── */
+    .vid-carousel { position: relative; }
+    .vid-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .vid-track::-webkit-scrollbar { display: none; }
+    .vid-slide {
+      flex: 0 0 100%;
+      min-width: 100%;
+      scroll-snap-align: start;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vid-stage {
+      position: relative;
+      width: 100%;
+      max-width: 820px;
+      height: 460px;
+      background-color: #0d0d1a;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .vid-stage video {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      background: transparent;
+    }
+    .vid-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 46px; height: 46px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: rgba(10,10,20,0.6);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 26px; line-height: 1;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .vid-arrow:hover {
+      background: rgba(139,92,246,0.5);
+      border-color: rgba(192,132,252,0.7);
+    }
+    .vid-arrow-prev { left: 20px; }
+    .vid-arrow-next { right: 20px; }
+    .vid-dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .vid-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .vid-dot:hover {
+      background: linear-gradient(135deg, #c084fc, #ec4899);
+      border-color: transparent;
+      transform: scale(1.25);
+    }
+    .vid-dot-active {
+      background: linear-gradient(135deg, #c084fc, #ec4899);
+      border-color: transparent;
+      transform: scale(1.3);
+    }
+    .vid-arrow svg { display: block; }
+
     /* ── CREDITS — 3 columns ── */
     .credits-grid {
       display: grid;
@@ -462,6 +548,90 @@
   </div>
 </section>
 
+<!-- CLIPS CAROUSEL -->
+<section class="sec" id="clips">
+  <div class="sec-label">More Clips</div>
+  <div class="vid-carousel">
+    <div class="vid-track">
+
+      <div class="vid-slide" id="vid-1">
+        <a class="vid-arrow vid-arrow-prev" href="#vid-6" aria-label="Previous clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+        <div class="vid-stage" style="background-image:url('resources/Videos/commercial-reel.jpg')">
+          <span class="reel-badge">COMMERCIAL REEL</span>
+          <video controls preload="none" playsinline>
+            <source src="resources/Videos/commercial-reel.mp4" type="video/mp4">
+          </video>
+        </div>
+        <a class="vid-arrow vid-arrow-next" href="#vid-2" aria-label="Next clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="vid-slide" id="vid-2">
+        <a class="vid-arrow vid-arrow-prev" href="#vid-1" aria-label="Previous clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+        <div class="vid-stage" style="background-image:url('resources/Videos/troubled-kid.jpg')">
+          <span class="reel-badge">TROUBLED KID</span>
+          <video controls preload="none" playsinline>
+            <source src="resources/Videos/troubled-kid.mp4" type="video/mp4">
+          </video>
+        </div>
+        <a class="vid-arrow vid-arrow-next" href="#vid-3" aria-label="Next clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="vid-slide" id="vid-3">
+        <a class="vid-arrow vid-arrow-prev" href="#vid-2" aria-label="Previous clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+        <div class="vid-stage" style="background-image:url('resources/Videos/presidential-rally.jpg')">
+          <span class="reel-badge">PRESIDENTIAL RALLY</span>
+          <video controls preload="none" playsinline>
+            <source src="resources/Videos/presidential-rally.mp4" type="video/mp4">
+          </video>
+        </div>
+        <a class="vid-arrow vid-arrow-next" href="#vid-4" aria-label="Next clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="vid-slide" id="vid-4">
+        <a class="vid-arrow vid-arrow-prev" href="#vid-3" aria-label="Previous clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+        <div class="vid-stage" style="background-image:url('resources/Videos/dramatic-climax.jpg')">
+          <span class="reel-badge">DRAMATIC CLIMAX</span>
+          <video controls preload="none" playsinline>
+            <source src="resources/Videos/dramatic-climax.mp4" type="video/mp4">
+          </video>
+        </div>
+        <a class="vid-arrow vid-arrow-next" href="#vid-5" aria-label="Next clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="vid-slide" id="vid-5">
+        <a class="vid-arrow vid-arrow-prev" href="#vid-4" aria-label="Previous clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+        <div class="vid-stage" style="background-image:url('resources/Videos/dance-and-drama.jpg')">
+          <span class="reel-badge">DANCE &amp; DRAMA</span>
+          <video controls preload="none" playsinline>
+            <source src="resources/Videos/dance-and-drama.mp4" type="video/mp4">
+          </video>
+        </div>
+        <a class="vid-arrow vid-arrow-next" href="#vid-6" aria-label="Next clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="vid-slide" id="vid-6">
+        <a class="vid-arrow vid-arrow-prev" href="#vid-5" aria-label="Previous clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+        <div class="vid-stage" style="background-image:url('resources/Videos/villain-clips.jpg')">
+          <span class="reel-badge">VILLAIN CLIPS</span>
+          <video controls preload="none" playsinline>
+            <source src="resources/Videos/villain-clips.mp4" type="video/mp4">
+          </video>
+        </div>
+        <a class="vid-arrow vid-arrow-next" href="#vid-1" aria-label="Next clip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+    </div>
+    <div class="vid-dots">
+      <a class="vid-dot" href="#vid-1" aria-label="Clip 1"></a>
+      <a class="vid-dot" href="#vid-2" aria-label="Clip 2"></a>
+      <a class="vid-dot" href="#vid-3" aria-label="Clip 3"></a>
+      <a class="vid-dot" href="#vid-4" aria-label="Clip 4"></a>
+      <a class="vid-dot" href="#vid-5" aria-label="Clip 5"></a>
+      <a class="vid-dot" href="#vid-6" aria-label="Clip 6"></a>
+    </div>
+  </div>
+</section>
+
 <!-- CREDITS -->
 <section class="sec">
   <div class="sec-label">Credits</div>
@@ -547,6 +717,67 @@
   </div>
   <div class="footer-copy">&copy; 2026 Harrison Keen</div>
 </footer>
+
+<!-- Carousel: horizontal-only navigation (no page jump) + active dot. Degrades to anchor links if JS is off. -->
+<script>
+(function () {
+  var track = document.querySelector('.vid-track');
+  if (!track) return;
+  var slides = [].slice.call(track.querySelectorAll('.vid-slide'));
+  var dots = [].slice.call(document.querySelectorAll('.vid-dots .vid-dot'));
+
+  function current() {
+    var tr = track.getBoundingClientRect();
+    var mid = tr.left + tr.width / 2;
+    var best = 0, bestDist = Infinity;
+    slides.forEach(function (s, i) {
+      var r = s.getBoundingClientRect();
+      var d = Math.abs(r.left + r.width / 2 - mid);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  function pauseAllExcept(keep) {
+    slides.forEach(function (s, idx) {
+      if (idx === keep) return;
+      var v = s.querySelector('video');
+      if (v && !v.paused) v.pause();
+    });
+  }
+
+  function goTo(i) {
+    if (i < 0) i = slides.length - 1;
+    if (i >= slides.length) i = 0;
+    pauseAllExcept(i);
+    slides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function setActive() {
+    var i = current();
+    dots.forEach(function (d, idx) { d.classList.toggle('vid-dot-active', idx === i); });
+    pauseAllExcept(i);
+  }
+
+  track.querySelectorAll('.vid-arrow').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      goTo(current() + (a.classList.contains('vid-arrow-next') ? 1 : -1));
+    });
+  });
+
+  dots.forEach(function (d, idx) {
+    d.addEventListener('click', function (e) { e.preventDefault(); goTo(idx); });
+  });
+
+  var ticking = false;
+  track.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { setActive(); ticking = false; }); }
+  }, { passive: true });
+
+  setActive();
+})();
+</script>
 
 </body>
 </html>
