@@ -1,6 +1,8 @@
 # Personal assets — keep off GitHub
 *.pdf
-!acting/cv.pdf
+# Exceptions: the two CVs the live site links to must ship
+!acting/HarrisonKeen_ActingCV.pdf
+!harrison_keen_resume.pdf
 
 # Claude Code internals / local docs
 .superpowers/

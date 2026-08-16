@@ -15,3 +15,9 @@
   from = "/acting"
   to = "/acting/index.html"
   status = 200
+
+# Old acting CV filename — keep previously shared links working
+[[redirects]]
+  from = "/acting/cv.pdf"
+  to = "/acting/HarrisonKeen_ActingCV.pdf"
+  status = 301
