@@ -21,3 +21,11 @@
   from = "/acting/cv.pdf"
   to = "/acting/HarrisonKeen_ActingCV.pdf"
   status = 301
+
+# Web-sized photos and reel posters (acting/resources/web/). Browsers keep them
+# for 30 days without re-checking, so a replaced image should get a new filename
+# or returning visitors may see the old one for up to a month.
+[[headers]]
+  for = "/acting/resources/web/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"

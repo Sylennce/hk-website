@@ -66,6 +66,8 @@ Small inline IIFEs, no libraries. Both are progressive enhancements — the page
 - `HARRISON.jpeg` — hero headshot (1.9 MB, referenced by relative path)
 - `acting/HarrisonKeen_ActingCV.pdf` — the acting CV behind *Download CV* (`/acting/cv.pdf` 301s to it via `netlify.toml`); `harrison_keen_resume.pdf` at the root backs the tech page's Resume link
 - `acting/resources/` — 357 MB of headshots, showreels, and clips
+- `acting/resources/web/` + `HARRISON-web.jpg` — **what the pages actually load.** Progressive JPEGs resized from the originals (hero 720w, gallery 900w, reel posters 1280w; ~25–200 KB each vs up to 12 MB). The originals stay in the repo but are no longer referenced. Adding or replacing a photo means generating a web copy (Pillow lives in `../Expenses/receipt-agent/venv`; `ImageOps.exif_transpose`, `quality=82, progressive=True`) under a **new filename** — `netlify.toml` caches `web/*` for 30 days.
+- Reels have no `autoplay` attribute: they carry `class="reel-autoplay"`, `preload="none"` and a poster, and a small script plays them only after `window.load` and while on screen, so the 57 MB of reel video doesn't compete with the hero photos.
 
 **`.gitignore` excludes `*.pdf` except those two.** Any other résumé or cover-letter PDF is deliberately kept off GitHub, so don't add it or write page links that assume it exists.
 

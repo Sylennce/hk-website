@@ -514,9 +514,9 @@
   <div class="hero-glow hero-glow-tr"></div>
 
   <div class="hero-photos">
-    <img class="hero-photo" src="resources/HARRISON KEEN 4.jpeg" alt="" style="object-position: 40% top">
-    <img class="hero-photo" src="resources/HARRISON KEEN 2.jpeg" alt="">
-    <img class="hero-photo" src="resources/HARRISON KEEN 5.jpg" alt="">
+    <img class="hero-photo" src="resources/web/hero-harrison-keen-4.jpg" fetchpriority="high" alt="" style="object-position: 40% top">
+    <img class="hero-photo" src="resources/web/hero-harrison-keen-2.jpg" fetchpriority="high" alt="">
+    <img class="hero-photo" src="resources/web/hero-harrison-keen-5.jpg" fetchpriority="high" alt="">
   </div>
 
   <div class="hero-text">
@@ -541,13 +541,13 @@
   <div class="reel-duo">
     <div class="reel-showreel-wrap">
       <span class="reel-badge">SHOWREEL</span>
-      <video muted autoplay loop playsinline controls>
+      <video class="reel-autoplay" muted loop playsinline controls preload="none" poster="resources/web/showreel-poster.jpg">
         <source src="resources/Showreel_HarrisonKeen.mp4" type="video/mp4">
       </video>
     </div>
     <div class="reel-vertical-wrap">
       <span class="reel-badge">VERTICAL REEL</span>
-      <video muted autoplay loop playsinline controls>
+      <video class="reel-autoplay" muted loop playsinline controls preload="none" poster="resources/web/vertical-reel-poster.jpg">
         <source src="resources/VerticalReel_HarrisonKeen.mp4" type="video/mp4">
       </video>
       <div class="reel-vertical-glow"></div>
@@ -578,31 +578,31 @@
   <div class="gallery-grid">
     <!-- Col 1 -->
     <div class="gallery-col">
-      <img class="gallery-img" src="resources/HARRISON KEEN 2.jpeg" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/IMG_1906.JPG" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/IMG_1941.JPG" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/scaledDown.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/harrison-keen-2.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/img_1906.jpg" width="900" height="600" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/img_1941.jpg" width="900" height="1350" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/scaleddown.jpg" width="900" height="1382" loading="lazy" decoding="async" alt="Harrison Keen">
     </div>
     <!-- Col 2 -->
     <div class="gallery-col">
-      <img class="gallery-img" src="resources/HARRISON KEEN 1.jpeg" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/DSC07561.jpg" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/IMG_1820.JPG" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/HARRISON KEEN 3.jpeg" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/harrison-keen-1.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/dsc07561.jpg" width="900" height="1350" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/img_1820.jpg" width="900" height="605" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/harrison-keen-3.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Harrison Keen">
     </div>
     <!-- Col 3 -->
     <div class="gallery-col">
-      <img class="gallery-img" src="resources/HARRISON KEEN 4.jpeg" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/IMG_1949.JPG" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/DSC08433.jpg" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/wormhole.png" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/harrison-keen-4.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/img_1949.jpg" width="900" height="1350" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/dsc08433.jpg" width="900" height="1350" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/wormhole.jpg" width="900" height="506" loading="lazy" decoding="async" alt="Harrison Keen">
     </div>
     <!-- Col 4 -->
     <div class="gallery-col">
-      <img class="gallery-img" src="resources/HARRISON 457.jpeg" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/IMG_1783_cropped.JPG" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/_MRC8528.JPG" alt="Harrison Keen">
-      <img class="gallery-img" src="resources/IMG_2006.JPG" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/harrison-457.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/img_1783_cropped.jpg" width="900" height="1351" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/mrc8528.jpg" width="900" height="1371" loading="lazy" decoding="async" alt="Harrison Keen">
+      <img class="gallery-img" src="resources/web/img_2006.jpg" width="900" height="600" loading="lazy" decoding="async" alt="Harrison Keen">
     </div>
   </div>
 </section>
@@ -788,6 +788,29 @@
   </div>
   <div class="footer-copy">&copy; 2026 Harrison Keen</div>
 </footer>
+
+<!-- Reels: start downloading only once the page's photos are in and the reel is near the screen, so 57 MB of video never competes with the hero. Without JS the poster shows and the controls still play it. -->
+<script>
+(function () {
+  var reels = [].slice.call(document.querySelectorAll('video.reel-autoplay'));
+  if (!reels.length) return;
+  function start() {
+    if (!('IntersectionObserver' in window)) {
+      reels.forEach(function (v) { v.play().catch(function () {}); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) e.target.play().catch(function () {});
+        else if (!e.target.paused) e.target.pause();
+      });
+    }, { rootMargin: '200px 0px' });
+    reels.forEach(function (v) { io.observe(v); });
+  }
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
+})();
+</script>
 
 <!-- Carousel: horizontal-only navigation (no page jump) + active dot. Degrades to anchor links if JS is off. -->
 <script>
