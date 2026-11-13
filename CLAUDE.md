@@ -38,15 +38,16 @@ There is no `DEPLOY.md` in this repo (older versions of this file referenced one
 ## Architecture
 
 ### Pages
-Four standalone pages, each its own `index.html`:
+Five standalone pages, each its own `index.html`:
 
-- `index.html` — landing page, **hero only** (one screen): headshot, typewriter tagline, a single *Actor* button, Instagram icon + email text pinned bottom-centre (325 lines)
-- `acting/index.html` — acting portfolio: headshots, reels, video carousel, credits (854 lines). **The only page linked from anywhere.**
+- `index.html` — landing page, **"Sky Islands" hub** (live 2026-11-12, replaced the old headshot hero): one painted scene, paths fork to *Acting* (theatre, `/acting/`) and *Websites* (observatory, `/websites/`); WebGL depth parallax, floating words, balloons/birds/butterflies, click = zoom + colour glow, then navigate. Engine is inline; config + art live in `assets/home/` (`worlds.js`, `isles*.{jpg,png}`, `sprites/`). Design source and tools: `drafts/hk-home-g3-sky-islands/` (gitignored); `isles.jpg` is a 2x upscale, coordinates stay in 1376px space. Uses Google Fonts (Cinzel etc.), unlike the old convention below.
+- `websites/index.html` — "Websites" page selling portfolio sites for actors (live 2026-11-12): poster-wall hero, "Now showing" slideshow, client grid, marquee contact form. Images in `websites/images/`. Google Fonts + CSS custom properties (own look, like `canvas/`). The form is **Netlify Forms** (`name="websites-enquiry"`, honeypot `bot-field`), posted by `fetch` to `/`; "Message sent" shows only on a 2xx, otherwise an inline error. Submissions land in the Netlify dashboard → Forms. Design source: `drafts/hk-websites-page-draft/`.
+- `acting/index.html` — acting portfolio: headshots, reels, video carousel, credits (854 lines). A redesign is in progress in `drafts/hk-acting-draft-3/` — **not live**; don't port it until he says so.
 - `tech/index.html` — tech/dev portfolio (364 lines). **Hidden since 2026-10-14**: unlinked from the homepage and acting nav, `noindex`, but still served at `/tech`. Saffra Scripts is likewise unlinked from the homepage. Don't re-link either without being asked.
 - `canvas/index.html` — standalone Canvas LMS showcase (512 lines, 1.5 MB), kept as a historical portfolio piece; linked only from the (hidden) tech page
 
 ### Styling conventions
-`index.html`, `acting/`, and `tech/` share one design language — keep them consistent:
+`acting/` and `tech/` share one design language — keep them consistent (the home and Websites pages have their own looks, see Pages):
 - Dark theme: background `#0a0a14` (`#0d0d1a` on acting), purple/pink accents `#8b5cf6`, `#c084fc`, `#ec4899`
 - System font stack (`-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`) — no webfonts
 - Fluid sizing via `clamp()`/`vw` — hero photos, reel heights and the clip stage all scale with the window rather than sitting at fixed px
@@ -54,6 +55,13 @@ Four standalone pages, each its own `index.html`:
 - Glow blobs: absolutely positioned divs with `filter: blur()` for ambient lighting
 - Gradient text via `-webkit-background-clip: text`
 - Literal hex values throughout, **no CSS custom properties** — a colour change means find-and-replace across the file
+
+**Design review lens:** the advisory "Craft principles" in
+`../Portfolio Sites/docs/design.md` apply here too. They cover the mirror-test copy, keeping the
+accent for clickable things only (60-30-10), front/middle/back depth, motion with a job plus
+`prefers-reduced-motion`, and a free sample before the ask. Known gaps as of 2026-11-09: no page
+here honours reduced motion yet, and the purple/pink gradient sits on headings and text as well
+as on buttons, so the buttons don't stand out.
 
 `canvas/index.html` is deliberately the odd one out: light cream/paper theme, `:root` custom properties, Google Fonts ("Instrument Serif" + "DM Sans"). Keep it visually independent of the other three.
 
@@ -68,6 +76,9 @@ Small inline IIFEs, no libraries. Both are progressive enhancements — the page
 - `acting/resources/` — 357 MB of headshots, showreels, and clips
 - `acting/resources/web/` + `HARRISON-web.jpg` — **what the pages actually load.** Progressive JPEGs resized from the originals (hero 720w, gallery 900w, reel posters 1280w; ~25–200 KB each vs up to 12 MB). The originals stay in the repo but are no longer referenced. Adding or replacing a photo means generating a web copy (Pillow lives in `../Expenses/receipt-agent/venv`; `ImageOps.exif_transpose`, `quality=82, progressive=True`) under a **new filename** — `netlify.toml` caches `web/*` for 30 days.
 - Reels have no `autoplay` attribute: they carry `class="reel-autoplay"`, `preload="none"` and a poster, and a small script plays them only after `window.load` and while on screen, so the 57 MB of reel video doesn't compete with the hero photos.
+
+- `favicon.ico` / `favicon.png` (192) / `apple-touch-icon.png` (180) — square crop of the red-background headshot, linked from all four pages; this is what Google shows beside the search result (added 2026-11-11).
+- `googlef482c8a3045fc8bc.html` — Google Search Console ownership file for the `https://harrisonkeen.tech/` property. **Never delete it** — removing it unverifies the property.
 
 **`.gitignore` excludes `*.pdf` except those two.** Any other résumé or cover-letter PDF is deliberately kept off GitHub, so don't add it or write page links that assume it exists.
 
