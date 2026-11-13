@@ -116,7 +116,7 @@ h1{font:800 min(7.4vw,11.2vh)/1 Fraunces,Georgia,serif;letter-spacing:-.005em;wh
 .dock{display:none}
 @media (max-aspect-ratio:3/2){
   h1{font-size:min(11.6vw,13vh)}
-  .stage{--lift:-3svh}
+  .stage{--lift:-6svh;--zoom:1.14;--oy:52%}             /* closer on the rock, and a touch higher */
   .signs,.way,.dim,.title .hint{display:none}
   .dock{display:block;position:absolute;left:0;right:0;bottom:0;z-index:4;text-align:center;
     padding:clamp(56px,11vh,110px) max(16px,env(safe-area-inset-right)) calc(max(10px,env(safe-area-inset-bottom)) + 34px) max(16px,env(safe-area-inset-left));
@@ -232,7 +232,7 @@ h1{font:800 min(7.4vw,11.2vh)/1 Fraunces,Georgia,serif;letter-spacing:-.005em;wh
     setTimeout(function(){stage.style.setProperty('--ox',n?'50%':END[k][0]+'%');stage.style.setProperty('--oy',n?'52%':(END[k][1]+3)+'%');
       var fl=$('.flash'),sr=scene.getBoundingClientRect(),br=(n?a:$('.bloom.'+k)).getBoundingClientRect(),fx_=br.left+br.width/2-sr.left,fy_=br.top+br.height/2-sr.top;
       fl.style.setProperty('--fx',fx_.toFixed(0)+'px');fl.style.setProperty('--fy',fy_.toFixed(0)+'px');
-      zooming=true;stage.classList.add('walk');stage.style.setProperty('--zoom',n?'1.3':'2.6');scene.classList.add('go-'+k)},30);
+      zooming=true;stage.classList.add('walk');stage.style.setProperty('--zoom',n?'1.48':'2.6');scene.classList.add('go-'+k)},30);
     setTimeout(function(){top.location.href=a.href},1030);
   })});
   addEventListener('pageshow',function(e){if(e.persisted)location.reload()});
@@ -334,7 +334,7 @@ h1{font:800 min(7.4vw,11.2vh)/1 Fraunces,Georgia,serif;letter-spacing:-.005em;wh
   /* something drifting across the far sky */
   (C.drift||[]).slice().sort(function(a,b){return a.h-b.h}).forEach(function(c){
     var el=actor('far',c.sprite),o=px(el,[0,0],c.z==null?.04:c.z);if(c.hue)el.style.filter='hue-rotate('+c.hue+'deg)';
-    cast.push(function(t){var u=c.swing?(1-Math.cos((t/c.period+(c.phase||0))*TAU))/2:((t/c.period+(c.phase||0))%1+1)%1,a=P(c.a),b=P(c.b),p=[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u+Math.sin(t*(c.bobSpeed||.35))*(c.bob||.5)];
+    cast.push(function(t){var u=c.swing?(1-Math.cos((t/c.period+(c.phase||0))*TAU))/2:((t/c.period+(c.phase||0))%1+1)%1,nr=c.near&&narrow(),a=P(nr?[c.near[0],c.a[1]]:c.a),b=P(nr?[c.near[1],c.b[1]]:c.b),p=[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u+Math.sin(t*(c.bobSpeed||.35))*(c.bob||.5)];
       o.p=p;put(el,p,c.h,'scaleX('+(c.flip?-1:1)+') rotate('+(Math.sin(t*.27)*(c.tilt==null?1.6:c.tilt)).toFixed(2)+'deg)')});
   });
   /* butterflies pottering over the near flowers */

@@ -304,6 +304,8 @@ main>section.on-paper{--bg:var(--paper);--fg:var(--night);--mute:var(--graphite)
 }
 @media (max-width:700px){
   .hline b{font-size:22px}
+  .hline{left:auto;right:var(--G);justify-items:end;text-align:right}   /* on a phone the left side sits over his hands */
+  .contact .sec-title{font-size:min(48px,9.5vw);white-space:nowrap}   /* "Casting & bookings" on one line */
   .nav-name{display:none}.nav{justify-content:center;padding-left:10px;padding-right:10px}
   .nav nav{gap:9px}.nav nav a{font-size:10px;letter-spacing:.06em}
   @media (max-width:370px){.nav nav{gap:6px}.nav nav a{letter-spacing:.01em}}

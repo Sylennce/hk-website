@@ -62,9 +62,10 @@ var WORLDS={
     pollen:[150,255,240],pollenCount:44,pollenAlpha:1,
     /* two balloons high in the open sky. swing = they drift to and fro between a and b (y = basket height in the
        painting), so they stay in the gap between the two floating words and never pass behind either of them.
-       The engine draws the smaller one first, so it always passes behind the bigger one. */
-    drift:[{sprite:'balloon',a:[412,204],b:[1012,192],h:9,period:260,phase:.08,bob:.5,swing:true},
-           {sprite:'balloon',a:[1022,160],b:[402,168],h:6.2,period:340,phase:.15,bob:.4,hue:150,swing:true}],
+       The engine draws the smaller one first, so it always passes behind the bigger one.
+       near = the a and b x used in the phone layout, so they turn round just past the edges of a phone screen. */
+    drift:[{sprite:'balloon',a:[412,204],b:[1012,192],h:9,period:260,phase:.08,bob:.5,swing:true,near:[505,875]},
+           {sprite:'balloon',a:[1022,160],b:[402,168],h:6.2,period:340,phase:.15,bob:.4,hue:150,swing:true,near:[895,485]}],
     butterflies:[{at:[170,640],s:3.8},{at:[1255,670],s:3.2,hue:150},{at:[560,700],s:2.6,hue:60}]
   }
 };
