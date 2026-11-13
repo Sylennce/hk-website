@@ -293,7 +293,9 @@ main>section.on-paper{--bg:var(--paper);--fg:var(--night);--mute:var(--graphite)
 .email{font:italic 500 clamp(22px,2.4vw,32px)/1.2 var(--serif);display:inline-block;margin-bottom:20px}
 .foot-grid .btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border:1px solid var(--white);font-weight:500;transition:background .25s,color .25s,border-color .25s}
 .foot-grid .btn:hover{background:var(--a);border-color:var(--a);color:var(--on-a);text-decoration:none}
-.colophon{margin-top:72px;font-size:14px;color:var(--silver)}
+.based{margin-top:72px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--silver)}
+.based span{display:inline-block;margin-left:1.1em;padding-left:1.1em;border-left:1px solid rgba(255,255,255,.3)}
+.colophon{margin-top:10px;font-size:14px;color:var(--silver)}
 .built-by{display:inline-block;margin-left:1.1em;padding-left:1.1em;border-left:1px solid rgba(255,255,255,.3);font-size:12px;letter-spacing:.02em}
 .built-by a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:var(--a);transition:color .2s}.built-by a:hover{color:var(--a)}
 
@@ -304,6 +306,8 @@ main>section.on-paper{--bg:var(--paper);--fg:var(--night);--mute:var(--graphite)
   .hline b{font-size:22px}
   .nav-name{display:none}.nav{justify-content:center;padding-left:10px;padding-right:10px}
   .nav nav{gap:9px}.nav nav a{font-size:10px;letter-spacing:.06em}
+  @media (max-width:370px){.nav nav{gap:6px}.nav nav a{letter-spacing:.01em}}
+  @media (max-width:380px){.based span{display:block;margin:4px 0 0;padding:0;border:0}}
   .fw{grid-template-columns:1fr;max-width:380px;margin:0 auto;gap:34px}
   .tl::before,.tl-spine{left:6px}
   .tl li{grid-template-columns:1fr;padding-left:32px;position:relative}
@@ -319,6 +323,15 @@ main>section.on-paper{--bg:var(--paper);--fg:var(--night);--mute:var(--graphite)
   .foot-grid{grid-template-columns:1fr}
   .built-by{display:block;margin:6px 0 0;padding:0;border:0}
   .tk{grid-template-columns:minmax(0,1fr) 64px;--n:radial-gradient(circle 12px at calc(100% - 64px) 0,transparent 96%,#000),radial-gradient(circle 12px at calc(100% - 64px) 100%,transparent 96%,#000)}
+}
+/* touch: bigger tap areas, same look */
+@media (pointer:coarse){
+  .nav nav a,.nav-name,.tlink,.foot-grid a:not(.btn),.dots .clip{position:relative}
+  .nav-name::after{content:"";position:absolute;inset:-12px -8px}
+  .nav nav a::after,.tlink::after,.foot-grid a:not(.btn)::after{content:"";position:absolute;inset:-9px -4px -10px}
+  .tlink::after,.foot-grid a:not(.btn)::after{inset:-9px -8px -10px}
+  .dots .clip::before{content:"";position:absolute;inset:-14px -3px}
+  .foot-grid li+li{margin-top:18px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
@@ -375,6 +388,7 @@ main>section.on-paper{--bg:var(--paper);--fg:var(--night);--mute:var(--graphite)
 <footer class="contact" id="contact"><div class="wrap">
   <div class="sec-h"><h2 class="sec-title">Casting &amp; bookings</h2></div>
   <div id="foot-box"></div>
+  <p class="based">Based in Vancouver, Canada <span>Non-union</span></p>
   <p class="colophon">© 2026 Harrison Keen<span class="built-by">Built by <a href="/websites/">Harrison Keen</a></span></p>
 </div></footer>
 
@@ -587,6 +601,10 @@ window.HK = (function () {
     box.querySelector('.hk-lb-p').onclick = function () { show(i - 1); };
     box.querySelector('.hk-lb-n').onclick = function () { show(i + 1); };
     box.addEventListener('click', function (e) { if (e.target === box) close(); });
+    /* phones: swipe left / right to step through */
+    var sx = null, sy = 0;
+    box.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    box.addEventListener('touchend', function (e) { if (sx == null) return; var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(dx < 0 ? i + 1 : i - 1); });
     addEventListener('keydown', function (e) { if (!box.classList.contains('on')) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
     var css = el('style', '', '.hk-lb{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;background:var(--lb-bg,rgba(8,8,10,.94))}.hk-lb.on{display:flex}.hk-lb img{max-width:min(92vw,1100px);max-height:88svh;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.5)}.hk-lb button{position:absolute;background:none;border:0;color:var(--lb-fg,#fff);font-size:44px;line-height:1;cursor:pointer;padding:14px;opacity:.85}.hk-lb button:hover{opacity:1}.hk-lb-x{top:max(10px,env(safe-area-inset-top));right:10px}.hk-lb-p{left:6px}.hk-lb-n{right:6px}');
     document.head.appendChild(css);
@@ -936,7 +954,7 @@ window.HK = (function () {
     var u = used(), list = PHOTOS.filter(function (p) { return u.indexOf(p.file) < 0; });
     phW = b.clientWidth; b.className = 'photos';
     b.innerHTML = rowsOf(list, phW).map(function (r) {
-      return '<div class="ph-row">' + r.map(function (p) { return '<img src="' + p.src + '" alt="' + p.alt + '" loading="lazy" data-full="' + p.src + '" style="--ar:' + p.ar + '">'; }).join('') + '</div>';
+      return '<div class="ph-row">' + r.map(function (p) { return '<img src="' + p.src + '" srcset="' + p.src.replace(/\.jpg$/, '-480.jpg') + ' 480w, ' + p.src + ' ' + (/img_513/.test(p.src) ? 1400 : 900) + 'w" sizes="' + (p.ar > 1 ? '(max-width:700px) 62vw, 34vw' : '(max-width:700px) 34vw, 22vw') + '" alt="' + p.alt + '" loading="lazy" data-full="' + p.src + '" style="--ar:' + p.ar + '">'; }).join('') + '</div>';
     }).join('');
     [].forEach.call(document.querySelectorAll('.hk-lb'), function (x) { x.remove(); });
     HK.lightbox(b);
