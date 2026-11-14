@@ -39,7 +39,7 @@ section,footer{position:relative;z-index:2}
 @keyframes slap{from{opacity:0;transform:scale(1.25) rotate(var(--r,0deg))}to{opacity:1;transform:scale(1) rotate(var(--r,0deg))}}
 
 /* ---------- hero: a wall of live sites, one free spot ---------- */
-#hero{height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#1a1613;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#hero{height:100vh;height:var(--screen,100svh);min-height:560px;overflow:hidden;background:#1a1613;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .wall{position:absolute;inset:-6%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:10px}
 .p{position:relative;opacity:0;transform:scale(1.25) rotate(var(--r));box-shadow:0 8px 20px #0009;border:0;padding:0;background:#151312;cursor:pointer;overflow:hidden}
 .p .pi{position:absolute;inset:0;filter:brightness(.42) saturate(.75);transition:filter .25s,transform .25s}
@@ -151,6 +151,11 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
  .qs summary{padding:20px 52px 20px 20px}.qs summary:after{right:20px}.qs details p{padding:0 20px 22px}
  .offer{padding-top:20px}
  .cA .row{grid-template-columns:1fr;gap:34px}
+ .cA .row>div:first-child{text-align:center}
+ .mq{margin:-8px 0 0}
+ .cA .lead{max-width:34em;margin-inline:auto}
+ .cA .ticks{display:inline-grid;text-align:left}
+ .alt{justify-content:center}
  .thumbs{grid-template-columns:repeat(3,1fr)}
  .spec-body{grid-template-columns:1fr}
  .spec .amt{border-right:0;border-bottom:1px solid #fff2;padding:34px 26px}
@@ -172,7 +177,16 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
  .bulb{background:#ffe2a0;box-shadow:0 0 6px #ffcf70}
  #dust{display:none}
 }
-</style></head>
+</style>
+<script>
+// Phones: pin the hero to the first screen height, in px. Phone browsers (Firefox, Instagram's in-app one) resize the
+// viewport, svh included, as their toolbar slides away on scroll, so a svh hero grows mid-scroll and the page jumps.
+// Only a width change (rotation) re-measures. Desktop keeps plain svh. Size the hero with var(--screen, 100svh).
+(()=>{if(!matchMedia('(pointer: coarse)').matches)return;
+  const r=document.documentElement;let w=0;
+  const pin=()=>{if(innerWidth===w)return;w=innerWidth;r.style.setProperty('--screen',innerHeight+'px')};
+  pin();addEventListener('resize',pin)})();
+</script></head>
 <body>
 
 <div id="beam"></div><canvas id="dust"></canvas>
@@ -275,17 +289,33 @@ $('fname').addEventListener('input',e=>{who=e.target.value.replace(/\s+/g,' ').t
 document.querySelectorAll('a[href="#contact"]').forEach(a=>a.addEventListener('click',()=>setTimeout(()=>$('fname').focus({preventScroll:true}),RM?0:700)));
 
 /* ---------- now showing: the real sites, playing ---------- */
-const va=$('va'),vb=$('vb');let cur=vb,ai=-1,inView=false,due;
+const va=$('va'),vb=$('vb');let cur=vb,ai=-1,inView=false,due,tok=0;
 S.forEach((s,i)=>$('thumbs').insertAdjacentHTML('beforeend',`<button type="button" data-i="${i}"><img src="images/${s[0]}.jpg" alt="">${s[1].split(' ')[0]}</button>`));
-function show(i){ai=(i+S.length)%S.length;const s=S[ai],nx=cur===va?vb:va,old=cur;
-  nx.poster=`images/${s[0]}.jpg`;nx.src=`media/${s[0]}-l.mp4`;if(inView&&!RM)nx.play().catch(()=>{});
-  nx.classList.add('on');old.classList.remove('on');setTimeout(()=>{if(old!==cur)old.pause()},900);cur=nx;
+/* The still is the clip's LAST frame (the finished site). Showing it while the clip downloads made the player
+   flash the finished site and then snap back to the start of the load animation. So: no poster, the incoming clip
+   fades in only once its first frame is decoded (the outgoing one holds its last frame until then), and the clip
+   after it is fetched ahead in the hidden player so the next change is instant. */
+function cue(v,i){const u=`media/${S[(i+S.length)%S.length][0]}-l.mp4`;
+  if(v.dataset.u!==u){v.dataset.u=u;v.removeAttribute('poster');v.preload='auto';v.src=u}}
+let pend=null;                                  // starts the clip that is waiting for its first frame
+function show(i){ai=(i+S.length)%S.length;const s=S[ai],nx=cur===va?vb:va,old=cur,t=++tok;let done=false;
   $('acap').innerHTML=`<b>${s[1]}</b><em>${s[2]}</em><a href="${s[3]||`https://harrisonkeen.github.io/${s[0]}/`}" target="_blank" rel="noopener">See the live site ↗</a>`;
-  [...$('thumbs').children].forEach((b,j)=>b.classList.toggle('on',j==ai));arm()}
+  [...$('thumbs').children].forEach((b,j)=>b.classList.toggle('on',j==ai));clearTimeout(due);
+  const swap=still=>{if(done||t!==tok)return;done=true;pend=null;
+    if(still)nx.poster=`images/${s[0]}.jpg`;
+    nx.classList.add('on');old.classList.remove('on');cur=nx;
+    if(inView&&!RM)nx.play().catch(()=>{});else nx.pause();
+    arm();setTimeout(()=>{if(t!==tok)return;old.pause();if(!RM)cue(old,ai+1)},950)};
+  if(RM){nx.src=`media/${s[0]}-l.mp4`;return swap(true)}           // reduced motion: stills only, as before
+  cue(nx,ai);if(nx.readyState>1)return swap();
+  nx.addEventListener('loadeddata',()=>swap(),{once:true});
+  // play() is what makes iPhones fetch a first frame. Autoplay refused (Low Power Mode) or 8s of nothing: show the still.
+  pend=()=>{setTimeout(()=>swap(true),8000);nx.play().catch(e=>{if(e&&e.name==='NotAllowedError')swap(true)})};
+  if(inView)pend()}
 function arm(){clearTimeout(due);due=setTimeout(()=>inView?show(ai+1):arm(),LEN*1000+400)}
 $('thumbs').onclick=e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)};
 show(0);
-new IntersectionObserver(([e])=>{inView=e.isIntersecting;if(RM)return;if(inView)cur.play().catch(()=>{});else cur.pause()},{threshold:.25}).observe($('show').querySelector('.stage'));
+new IntersectionObserver(([e])=>{inView=e.isIntersecting;if(RM)return;if(!inView)cur.pause();else if(pend)pend();else cur.play().catch(()=>{})},{threshold:.25}).observe($('show').querySelector('.stage'));
 
 /* ---------- floating CTA ---------- */
 const seen={hero:true,contact:false,promise:false};
@@ -302,7 +332,8 @@ function dust(t){requestAnimationFrame(dust);
     const beam=Math.max(0,1-Math.abs(m.x-.5)/(.08+m.y*.3));            // brighter inside the projector cone
     const a=(.10+beam*.55)*(.6+.4*Math.sin(t/700+m.p*3));
     cx.fillStyle=`rgba(255,228,180,${a})`;cx.beginPath();cx.arc(m.x*W,m.y*H,m.r*devicePixelRatio*(1+beam*.6),0,6.28);cx.fill();}}
-if(!RM){sizeDust();addEventListener('resize',sizeDust);requestAnimationFrame(dust)}
+let lastW=innerWidth;const COARSE=matchMedia('(pointer: coarse)').matches;
+if(!RM){sizeDust();requestAnimationFrame(dust)}
 
 /* ---------- marquee bulbs + send ---------- */
 function bulbs(){const m=$('mq');m.querySelectorAll('.bulb').forEach(b=>b.remove());const w=m.offsetWidth,h=m.offsetHeight;if(!w)return;
@@ -322,6 +353,8 @@ $('form').onsubmit=e=>{e.preventDefault();const f=$('form');if(!f.reportValidity
     setTimeout(()=>{h.textContent='Got it.';h.style.opacity=1;bulbs();const m=$('mq');m.classList.remove('flash');void m.offsetWidth;m.classList.add('flash');setTimeout(()=>m.classList.remove('flash'),1500)},250)})
   .catch(()=>{b.classList.remove('busy');b.querySelector('.lbl').textContent='Build my site';$('err').hidden=false})};
 $('again').onclick=resetSend;
-addEventListener('resize',bulbs);document.fonts.ready.then(bulbs);bulbs();
+addEventListener('resize',()=>{const wide=innerWidth!==lastW;lastW=innerWidth;if(!wide&&COARSE)return;   // a phone toolbar sliding away is not a resize
+  bulbs();if(!RM)sizeDust()});
+document.fonts.ready.then(bulbs);bulbs();
 </script>
 </body></html>
