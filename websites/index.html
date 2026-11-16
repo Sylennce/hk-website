@@ -101,6 +101,16 @@ section,footer{position:relative;z-index:2}
 .promise p{font:300 clamp(22px,2.6vw,30px)/1.3 Fraunces,serif;letter-spacing:-.01em}
 .promise small{display:block;color:var(--dim);font-size:15px;line-height:1.6;margin:12px 0 26px}
 
+/* ---------- testimonials: press quotes ---------- */
+.tm{padding-top:40px}
+.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;max-width:1000px;margin:0 auto;align-items:start}
+.tm figure{border-top:1px solid #fff3;padding-top:26px;position:relative}
+.tm figure:before{content:"\201C";position:absolute;right:0;top:4px;font:300 120px/1 Fraunces,serif;color:#e8b96a33;pointer-events:none}
+.tm .stars{color:var(--acc);letter-spacing:.2em;font-size:17px}
+.tm blockquote{font:300 clamp(21px,2.1vw,26px)/1.42 Fraunces,serif;letter-spacing:-.005em;margin:16px 0 22px;text-wrap:pretty}
+.tm figcaption{font-size:14px;color:var(--dim)}
+.tm figcaption b{color:var(--ink);font-weight:600;font-size:15px}
+
 /* ---------- contact ---------- */
 .cA{overflow:hidden}
 .cA .row{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;align-items:start;position:relative;z-index:2}
@@ -146,6 +156,11 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
 #pill.on{opacity:1;transform:none;pointer-events:auto}
 
 @media(max-width:800px){
+ .tm{padding-top:24px}
+ .tm-grid{grid-template-columns:1fr;gap:38px}
+ .tm figure{padding-top:22px}
+ .tm figure:before{font-size:92px;top:2px}
+ .tm blockquote{font-size:21px;line-height:1.45;margin:14px 0 18px}
  .wrap{padding:64px 20px}
  form{padding:18px}
  .sectit{margin-bottom:30px}
@@ -207,6 +222,22 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
   <div class="stage"><div class="win"><div class="bar"><i></i><i></i><i></i></div><div class="slides"><video id="va" muted playsinline preload="none"></video><video id="vb" muted playsinline preload="none"></video></div></div></div>
   <div class="cap" id="acap" aria-live="polite"></div>
   <div class="thumbs" id="thumbs"></div>
+</section>
+
+<section class="tm wrap" id="testimonials">
+  <div class="sectit"><div class="eyebrow">Testimonials</div><h2>The reviews are in.</h2></div>
+  <div class="tm-grid">
+    <figure>
+      <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>I love how fast you got this set up, and the quality did not lack because of the speed. It looks very unique and I very much appreciate the hard work you put into it.</blockquote>
+      <figcaption><b>Michael Wattel</b> · Actor · 2026</figcaption>
+    </figure>
+    <figure>
+      <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>Harrison is quick and attentive to what you want (or don’t want). Communicates fast and reliably.</blockquote>
+      <figcaption><b>Evan B.</b> · Actor · 2026</figcaption>
+    </figure>
+  </div>
 </section>
 
 <section class="wrap" id="faq">
