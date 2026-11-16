@@ -26,6 +26,15 @@ input[type=text],textarea{font:inherit;font-size:16px;padding:14px 15px;border-r
 input[type=text]:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
 textarea{min-height:96px;resize:vertical;line-height:1.5}
 fieldset{border:0}
+.price legend{margin-bottom:12px}
+.price .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid #fff1}
+.price .row label{font-size:14px;line-height:1.4;color:var(--ink)}
+.cad{position:relative;flex:none;width:118px}
+.cad:before{content:"C$";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:15px;pointer-events:none}
+.cad input{font:inherit;font-size:16px;width:100%;padding:12px 12px 12px 38px;border-radius:8px;border:1px solid #fff2;background:#ffffff08;color:inherit;-moz-appearance:textfield;appearance:textfield}
+.cad input::-webkit-outer-spin-button,.cad input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.cad input::placeholder{color:#fff3}
+.cad input:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
 .stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:4px}
 .stars input{position:absolute;opacity:0;width:1px;height:1px}
 .stars label{cursor:pointer;padding:6px 4px;line-height:0;color:#3a332c;transition:color .12s,transform .12s}
@@ -83,7 +92,15 @@ footer a{color:var(--dim)}
 
     <div><label class="q" for="loved">What did you love?</label><textarea name="loved" id="loved"></textarea></div>
     <div><label class="q" for="change">Anything you'd change?</label><textarea name="change" id="change"></textarea></div>
-    <div><label class="q" for="testimonial">A line or two I can share<span class="hint">In your own words. This is what other performers would read.</span></label><textarea name="testimonial" id="testimonial"></textarea></div>
+
+    <fieldset class="price">
+      <legend class="q">What's a site like yours worth?<span class="hint">Four quick numbers in Canadian dollars for the website itself, not the domain. Picture buying it today. There are no wrong answers, and this stays between us.</span></legend>
+      <div class="row"><label for="price_too_cheap">So cheap you'd doubt it was any good</label><span class="cad"><input type="number" name="price_too_cheap" id="price_too_cheap" min="0" step="any" inputmode="decimal"></span></div>
+      <div class="row"><label for="price_bargain">A bargain, a really good deal</label><span class="cad"><input type="number" name="price_bargain" id="price_bargain" min="0" step="any" inputmode="decimal"></span></div>
+      <div class="row"><label for="price_expensive">Getting expensive, but you'd still seriously consider it</label><span class="cad"><input type="number" name="price_expensive" id="price_expensive" min="0" step="any" inputmode="decimal"></span></div>
+      <div class="row"><label for="price_too_expensive">So expensive you wouldn't even consider it</label><span class="cad"><input type="number" name="price_too_expensive" id="price_too_expensive" min="0" step="any" inputmode="decimal"></span></div>
+    </fieldset>
+    <div><label class="q" for="testimonial">Would you write me a short testimonial?<span class="hint">Just a line or two in your own words about your site or working with me. Other performers will read it when they're deciding on a site of their own.</span></label><textarea name="testimonial" id="testimonial"></textarea></div>
     <div><label class="q" for="display_name">Name to show</label><input type="text" name="display_name" id="display_name" autocomplete="off"></div>
     <div><label class="q" for="role">Role or title <span class="hint" style="display:inline">(optional)</span></label><input type="text" name="role" id="role" autocomplete="off"></div>
 
