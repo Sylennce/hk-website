@@ -64,6 +64,7 @@ section,footer{position:relative;z-index:2}
 .cap b{display:block;font-family:Fraunces;font-weight:300;font-size:28px}
 .cap em{display:block;color:var(--dim);font-size:16px;line-height:1.55;font-style:normal;margin:6px auto 0}
 .cap a{display:inline-block;margin-top:2px;padding:10px 6px;color:var(--acc);font-size:14px;font-weight:500;text-underline-offset:4px}
+.cap .soon{display:inline-block;margin-top:2px;padding:10px 6px;color:var(--dim);font-size:14px;font-weight:500;cursor:default}
 .thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;max-width:900px;margin:18px auto 0}
 .thumbs button{border:0;background:none;color:var(--dim);font:500 12px Inter,sans-serif;cursor:pointer;padding:0;text-align:center}
 .thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;display:block;opacity:.45;transition:opacity .3s,transform .3s;margin-bottom:8px;outline:2px solid transparent;outline-offset:3px}
@@ -264,6 +265,7 @@ const S=[["haylie-hansen","Haylie Hansen","Sweet one minute, a little bit mean t
 ["harrison-keen","Harrison Keen","Ready for his close-up.","https://harrisonkeen.tech/acting/"],
 ["shy-miller","Shy Miller","Living the good life."],
 ["michael-wattel","Michael Wattel","Money can't fix everything."]];
+const SOON=new Set(['kendyl-twa','shy-miller']);   // not public yet: caption says Coming Soon, no link
 const $=id=>document.getElementById(id);
 const img=f=>`<img class="fill" src="images/${f}.jpg" alt="">`;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -299,7 +301,7 @@ function cue(v,i){const u=`media/${S[(i+S.length)%S.length][0]}-l.mp4`;
   if(v.dataset.u!==u){v.dataset.u=u;v.removeAttribute('poster');v.preload='auto';v.src=u}}
 let pend=null;                                  // starts the clip that is waiting for its first frame
 function show(i){ai=(i+S.length)%S.length;const s=S[ai],nx=cur===va?vb:va,old=cur,t=++tok;let done=false;
-  $('acap').innerHTML=`<b>${s[1]}</b><em>${s[2]}</em><a href="${s[3]||`https://harrisonkeen.github.io/${s[0]}/`}" target="_blank" rel="noopener">See the live site ↗</a>`;
+  $('acap').innerHTML=`<b>${s[1]}</b><em>${s[2]}</em>`+(SOON.has(s[0])?`<span class="soon">Coming Soon</span>`:`<a href="${s[3]||`https://harrisonkeen.github.io/${s[0]}/`}" target="_blank" rel="noopener">See the live site ↗</a>`);
   [...$('thumbs').children].forEach((b,j)=>b.classList.toggle('on',j==ai));clearTimeout(due);
   const swap=still=>{if(done||t!==tok)return;done=true;pend=null;
     if(still)nx.poster=`images/${s[0]}.jpg`;
