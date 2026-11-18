@@ -88,7 +88,7 @@ section,footer{position:relative;z-index:2}
 .spec{border:1px solid #fff2;border-radius:14px;overflow:hidden;background:#100f0e;box-shadow:0 40px 90px #000c;font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
 .spec .bar span{background:none;padding:0;margin-left:8px;letter-spacing:.08em}
 .spec-body{display:grid;grid-template-columns:1fr 1.15fr;background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:28px 28px}
-.spec .amt{padding:44px 40px;border-right:1px solid #fff2}
+.spec .amt{padding:44px 40px;border-right:1px solid #fff2;display:flex;flex-direction:column;justify-content:center}
 .spec .amt b{display:block;font-weight:600;font-size:clamp(64px,8vw,96px);line-height:1;letter-spacing:-.04em;color:var(--ink)}
 .spec .amt b i{font-style:normal;font-size:.26em;letter-spacing:.06em;margin-left:.45em;color:var(--dim);font-weight:400}
 .spec .amt .plus{display:block;margin-top:12px;font-size:17px;color:var(--ink)}
@@ -266,8 +266,7 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
   <div class="spec">
     <div class="bar"><i></i><i></i><i></i><span>pricing</span></div>
     <div class="spec-body">
-      <div class="amt"><b>$119<i>CAD</i></b><span class="plus">All up.</span>
-        <p>$119 CAD, paid once. That covers the site and a standard .com domain, like yourname.com.</p></div>
+      <div class="amt"><b>$119<i>CAD</i></b><span class="plus">All up.</span></div>
       <div class="inc"><h3>// INCLUDED</h3>
         <ul>
           <li>A custom design, built around you</li>
@@ -282,8 +281,8 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
   <aside class="coupon" aria-label="Special offer">
     <h3>// SPECIAL OFFER</h3>
     <b>$99<i>CAD</i></b>
-    <span class="all">All up</span>
-    <p>Pay up front and the whole thing, .com included, is $99 CAD.</p>
+    <span class="all">Everything included</span>
+    <p>If you pay up front.</p>
   </aside>
   </div>
   <div class="promise" id="promise">
