@@ -117,8 +117,9 @@ section,footer{position:relative;z-index:2}
 
 /* ---------- testimonials: press quotes ---------- */
 .tm{padding-top:40px}
-.tm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1160px;margin:0 auto;align-items:start}
-@media(max-width:1000px){.tm-grid{grid-template-columns:1fr;max-width:640px}}
+.tm-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:48px 40px;max-width:1160px;margin:0 auto;align-items:flex-start}
+.tm-grid figure{flex:0 1 calc((100% - 80px)/3)}
+@media(max-width:1000px){.tm-grid{max-width:640px}.tm-grid figure{flex-basis:100%}}
 .tm figure{border-top:1px solid #fff3;padding-top:26px;position:relative}
 .tm figure:before{content:"\201C";position:absolute;right:0;top:4px;font:300 120px/1 Fraunces,serif;color:#e8b96a33;pointer-events:none}
 .tm .stars{color:var(--acc);letter-spacing:.2em;font-size:17px}
@@ -286,6 +287,16 @@ section{scroll-margin-top:52px}
       <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
       <blockquote>Sending him updates was easy, and he turned them around fast. He welcomed my feedback and really cared about making my acting site feel like me.</blockquote>
       <figcaption><b>Joseph M.</b> · Actor · 2026</figcaption>
+    </figure>
+    <figure>
+      <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>Amazing work and attention to detail. Got everything done super quick and very diligent with follow ups and making sure everything is to my liking. Understood my character types and worked with that to create the aesthetic of the website.</blockquote>
+      <figcaption><b>Haylie H.</b> · Actor · 2026</figcaption>
+    </figure>
+    <figure>
+      <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>Harrison is a joy to collaborate with, his technical and artistic talent is to thank for this awesome site he made for me.</blockquote>
+      <figcaption><b>Kylan M.</b> · Actor · 2026</figcaption>
     </figure>
   </div>
 </section>
