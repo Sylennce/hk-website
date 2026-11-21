@@ -113,7 +113,8 @@ section,footer{position:relative;z-index:2}
 
 /* ---------- testimonials: press quotes ---------- */
 .tm{padding-top:40px}
-.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;max-width:1000px;margin:0 auto;align-items:start}
+.tm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1160px;margin:0 auto;align-items:start}
+@media(max-width:1000px){.tm-grid{grid-template-columns:1fr;max-width:640px}}
 .tm figure{border-top:1px solid #fff3;padding-top:26px;position:relative}
 .tm figure:before{content:"\201C";position:absolute;right:0;top:4px;font:300 120px/1 Fraunces,serif;color:#e8b96a33;pointer-events:none}
 .tm .stars{color:var(--acc);letter-spacing:.2em;font-size:17px}
@@ -248,6 +249,11 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
       <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
       <blockquote>Harrison is quick and attentive to what you want (or don’t want). Communicates fast and reliably.</blockquote>
       <figcaption><b>Evan B.</b> · Actor · 2026</figcaption>
+    </figure>
+    <figure>
+      <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>Sending him updates was easy, and he turned them around fast. He welcomed my feedback and really cared about making my acting site feel like me.</blockquote>
+      <figcaption><b>Joseph M.</b> · Actor · 2026</figcaption>
     </figure>
   </div>
 </section>
