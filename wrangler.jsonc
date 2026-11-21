@@ -7,6 +7,9 @@
   "compatibility_date": "2026-11-01",
   "workers_dev": true,
   "preview_urls": false,
+  // Apex is a Workers custom domain (Cloudflare manages its DNS record). www stays a
+  // proxied CNAME to the apex.
+  "routes": [{ "pattern": "harrisonkeen.tech", "custom_domain": true }],
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
