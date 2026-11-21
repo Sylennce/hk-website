@@ -19,21 +19,41 @@ behave the way they do in production.
 
 ## Deployment
 
-Pushing to `main` on `github.com/Sylennce/hk-website` deploys to production immediately (Netlify, publish dir `.`). **There is no staging environment** — check locally before pushing.
-
-The full chain, verified 2026-08-02:
+**Host: Cloudflare Workers with static assets** (moved off Netlify 2026-11-20, after Netlify's
+free credits ran out and paused production deploys). Pushing to `main` on
+`github.com/Sylennce/hk-website` deploys to production via Cloudflare Workers Builds. **There is no
+staging environment.** Check locally before pushing. For a manual deploy run `./deploy.sh`. It
+deploys `git archive HEAD` and never the working folder, because the checkout holds gitignored
+personal files (PDFs, raw photos) that must not go public. Never run a bare `wrangler deploy` here.
 
 | Layer | Provider | Detail |
 |---|---|---|
 | Registrar | Hostinger | `harrisonkeen.tech`, expires 2027-03-11 |
 | DNS | Cloudflare | `damian` / `tara.ns.cloudflare.com` |
-| Host | Netlify | apex `A` → `75.2.60.5`, serves `server: Netlify` |
+| Host | Cloudflare Worker `hk-website` | apex = Workers custom domain (`wrangler.jsonc` `routes`); `www` = proxied CNAME, 301 to apex via a zone Redirect Rule (query string kept); "Always Use HTTPS" on |
 
-Apex and `www` behave differently: the apex record is **DNS-only** (requests hit Netlify directly), while `www` is **Cloudflare-proxied** and 301s to the apex. If you change DNS, keep the apex unproxied — proxying it puts Cloudflare in front of Netlify's TLS and can break certificate renewal.
+How the pieces fit (`wrangler.jsonc`):
+- **Static assets** = the repo root, minus whatever `.assetsignore` lists (tooling, drafts, docs, `*.md`,
+  personal PDFs except the two CVs, and the acting mp4s). `html_handling: auto-trailing-slash`, so
+  `/acting` 307s to `/acting/`. `_redirects` keeps `/acting/cv.pdf` → the CV (301). `_headers` caches
+  `acting/resources/web/*` for 30 days.
+- **`worker/index.js`** only runs for requests that matched no asset:
+  - `POST /api/form` handles both forms. It saves to **D1 `hk-forms`** (table `submissions`, schema in
+    `worker/schema.sql`) and emails `OWNER_EMAIL` through **Resend** (secret `RESEND_API_KEY`, same key as
+    `../ClientJobs/`; sender `hello@harrisonkeen.tech`; an enquiry's reply-to = the enquirer). It returns
+    200 if either the save or the email worked. A filled honeypot gets a fake 200. A foreign `Origin` gets 403.
+  - Acting videos (`acting/resources/**/*.mp4`) are over Cloudflare's 25 MiB per-asset limit, so they
+    live in **R2 bucket `hk-media`** under the same key as their URL path. They are served with Range
+    support so seeking works. **Adding or replacing an acting video means uploading it to R2 as well:**
+    `npx wrangler r2 object put "hk-media/<path>" --file "<path>" --content-type video/mp4 --remote`.
+  - `/googlef482c8a3045fc8bc.html` goes through the worker (`run_worker_first`) so Search Console
+    gets a 200 at the exact `.html` path instead of the assets layer's 307.
+- Read submissions: `npx wrangler d1 execute hk-forms --remote --command "SELECT * FROM submissions ORDER BY id DESC LIMIT 20"`.
+  Submissions from before 2026-11-20 are still in the Netlify dashboard (project `harmonious-fairy-6fafda` → Forms).
+- Tests: `node --test test/worker.test.mjs`.
 
-`netlify.toml` declares 200-rewrites for `/canvas`, `/tech`, and `/acting`. In practice Netlify's own pretty-URL handling 301s each to a trailing-slash path first, then serves the directory `index.html`; all three return 200 after the redirect.
-
-There is no `DEPLOY.md` in this repo (older versions of this file referenced one). The table above is the record.
+The old Netlify project still exists, unused, as a fallback. Switching back = delete the Worker
+custom domain and re-add the apex `A 75.2.60.5` (DNS only). `netlify.toml` stays only for that reason.
 
 ## Architecture
 
@@ -41,8 +61,8 @@ There is no `DEPLOY.md` in this repo (older versions of this file referenced one
 Six standalone pages, each its own `index.html`:
 
 - `index.html` — landing page, **"Sky Islands" hub** (live 2026-11-12, replaced the old headshot hero): one painted scene, paths fork to *Acting* (theatre, `/acting/`) and *Websites* (observatory, `/websites/`); WebGL depth parallax, floating words, balloons/birds/butterflies, click = zoom + colour glow, then navigate. Engine is inline; config + art live in `assets/home/` (`worlds.js`, `isles*.{jpg,png}`, `sprites/`). Design source and tools: `drafts/hk-home-g3-sky-islands/` (gitignored); `isles.jpg` is a 2x upscale, coordinates stay in 1376px space. Uses Google Fonts (Cinzel etc.), unlike the old convention below.
-- `websites/index.html` — "Websites" page selling portfolio sites for actors (live 2026-11-12, conversion rework 2026-11-13): hero wall where every poster is a looping clip of a real client site + a calm centred pitch over it (problem headline, fix line, one button); "Now showing" player (no URLs) with thumbnail picker; three-question FAQ (details expanders); mono "spec sheet" price panel ($119 CAD **all up**, a standard .com included, "price may vary for other custom domains"; since 2026-11-17) with a dashed "coupon" beside it: special offer $99 CAD all up when paid up front and the see-it-before-you-pay promise; marquee contact form; floating pill. **One CTA label everywhere: "Build my site"** (hero, pill, offer, form button). Audience is actors, singers, performers and other creatives, not actors only. Stills in `websites/images/`, clips in `websites/media/` (`<slug>-s.mp4` 480w for the wall, `-l.mp4` 960w for the player, all exactly 5s, recorded from the live sites from the moment of load, with the still = the clip's last frame; how to re-record: `drafts/hk-websites-page-draft/capture/README.md`). The projector dust canvas is `z-index:0` — it must stay behind every section. Honours `prefers-reduced-motion` (stills, no dust). Google Fonts + CSS custom properties (own look, like `canvas/`). The form is **Netlify Forms** (`name="websites-enquiry"`, honeypot `bot-field`, fields `name`/`email`/`links`/`message` + hidden `source`: the `?r=<tag>` a reel's link carried, remembered in localStorage `hk-src`, else the referring host, else `direct`), posted by `fetch` to `/`; "Message sent" shows only on a 2xx, otherwise an inline error. Submissions land in the Netlify dashboard → Forms. The live file is ahead of `drafts/hk-websites-page-draft/index.html` — edit the live file.
-- `feedback/index.html` — client feedback + testimonial form (2026-11-14), **noindex and linked from no page**: clients reach it only from the go-live email sent by `../ClientJobs/` (a Cloudflare Worker), via `?c=<slug>&n=<First>&i=<Last initial>&s=<domain>`. Websites-page tokens and fonts, phone-first, 560px column. Netlify Forms `name="client-feedback"`, honeypot `bot-field`, fields `client`/`site` (hidden, from the URL), `rating` (1–5, required), `loved`, `change`, then four optional C$ price answers (Van Westendorp / Hormozi price questions, 2026-11-15: `price_too_cheap`, `price_bargain`, `price_expensive`, `price_too_expensive`; labels are his four questions **verbatim** — never reword them; website only, not the domain; private, never published), `testimonial`, `display_name` (defaults to "<First> <Initial>., Actor"), `role`, `consent` (checkbox, **pre-ticked** — Harrison's call; copy names what it covers and how to withdraw). URL params reach the DOM only through `textContent`/`.value`. Same fetch-to-`/` submit as the Websites form; thank-you card only on a 2xx.
+- `websites/index.html` — "Websites" page selling portfolio sites for actors (live 2026-11-12, conversion rework 2026-11-13): hero wall where every poster is a looping clip of a real client site + a calm centred pitch over it (problem headline, fix line, one button); "Now showing" player (no URLs) with thumbnail picker; three-question FAQ (details expanders); mono "spec sheet" price panel ($119 CAD **all up**, a standard .com included, "price may vary for other custom domains"; since 2026-11-17) with a dashed "coupon" beside it: special offer $99 CAD all up when paid up front and the see-it-before-you-pay promise; marquee contact form; floating pill. **One CTA label everywhere: "Build my site"** (hero, pill, offer, form button). Audience is actors, singers, performers and other creatives, not actors only. Stills in `websites/images/`, clips in `websites/media/` (`<slug>-s.mp4` 480w for the wall, `-l.mp4` 960w for the player, all exactly 5s, recorded from the live sites from the moment of load, with the still = the clip's last frame; how to re-record: `drafts/hk-websites-page-draft/capture/README.md`). The projector dust canvas is `z-index:0` — it must stay behind every section. Honours `prefers-reduced-motion` (stills, no dust). Google Fonts + CSS custom properties (own look, like `canvas/`). The form posts to the Worker's `/api/form` (`form-name="websites-enquiry"`, honeypot `bot-field`, fields `name`/`email`/`links`/`message` + hidden `source`: the `?r=<tag>` a reel's link carried, remembered in localStorage `hk-src`, else the referring host, else `direct`), posted by `fetch` to `/api/form`; "Message sent" shows only on a 2xx, otherwise an inline error. Submissions land in D1 `hk-forms` and are emailed to him (see Deployment). The live file is ahead of `drafts/hk-websites-page-draft/index.html` — edit the live file.
+- `feedback/index.html` — client feedback + testimonial form (2026-11-14), **noindex and linked from no page**: clients reach it only from the go-live email sent by `../ClientJobs/` (a Cloudflare Worker), via `?c=<slug>&n=<First>&i=<Last initial>&s=<domain>`. Websites-page tokens and fonts, phone-first, 560px column. Worker form `form-name="client-feedback"`, honeypot `bot-field`, fields `client`/`site` (hidden, from the URL), `rating` (1–5, required), `loved`, `change`, then four optional C$ price answers (Van Westendorp / Hormozi price questions, 2026-11-15: `price_too_cheap`, `price_bargain`, `price_expensive`, `price_too_expensive`; labels are his four questions **verbatim** — never reword them; website only, not the domain; private, never published), `testimonial`, `display_name` (defaults to "<First> <Initial>., Actor"), `role`, `consent` (checkbox, **pre-ticked** — Harrison's call; copy names what it covers and how to withdraw). URL params reach the DOM only through `textContent`/`.value`. Same fetch-to-`/api/form` submit as the Websites form; thank-you card only on a 2xx.
 - `acting/index.html` — acting portfolio, **redesigned and live 2026-11-12**: B&W cover hero with camera flashes, Featured work posters, press timeline, Reels, Photos, Credits (three columns that end level), Socials, Casting & bookings. Own look like the home and Websites pages (Google Fonts, CSS custom properties), so the shared `acting/`+`tech/` styling notes below now describe `tech/` only. **Generated file — don't hand-edit:** the source is `drafts/hk-acting-draft-3/` (`index.html` + `shared.js`, gitignored); change it there, then run `python3 drafts/hk-acting-draft-3/build_live.py`, which inlines the script, swaps in live paths and drops the mockup panel. Images it loads are in `acting/resources/web/`. The old page is in git history before this date.
 - `tech/index.html` — tech/dev portfolio (364 lines). **Hidden since 2026-10-14**: unlinked from the homepage and acting nav, `noindex`, but still served at `/tech`. Saffra Scripts is likewise unlinked from the homepage. Don't re-link either without being asked.
 - `canvas/index.html` — standalone Canvas LMS showcase (512 lines, 1.5 MB), kept as a historical portfolio piece; linked only from the (hidden) tech page
@@ -73,9 +93,9 @@ Small inline IIFEs, no libraries. Both are progressive enhancements — the page
 
 ### Assets
 - `HARRISON.jpeg` — hero headshot (1.9 MB, referenced by relative path)
-- `acting/HarrisonKeen_ActingCV.pdf` — the acting CV behind *Download CV* (`/acting/cv.pdf` 301s to it via `netlify.toml`); `harrison_keen_resume.pdf` at the root backs the tech page's Resume link
+- `acting/HarrisonKeen_ActingCV.pdf` — the acting CV behind *Download CV* (`/acting/cv.pdf` 301s to it via `_redirects`); `harrison_keen_resume.pdf` at the root backs the tech page's Resume link
 - `acting/resources/` — 357 MB of headshots, showreels, and clips
-- `acting/resources/web/` + `HARRISON-web.jpg` — **what the pages actually load.** Progressive JPEGs resized from the originals (hero 720w, gallery 900w, reel posters 1280w; ~25–200 KB each vs up to 12 MB). The originals stay in the repo but are no longer referenced. Adding or replacing a photo means generating a web copy (Pillow lives in `../Expenses/receipt-agent/venv`; `ImageOps.exif_transpose`, `quality=82, progressive=True`) under a **new filename** — `netlify.toml` caches `web/*` for 30 days.
+- `acting/resources/web/` + `HARRISON-web.jpg` — **what the pages actually load.** Progressive JPEGs resized from the originals (hero 720w, gallery 900w, reel posters 1280w; ~25–200 KB each vs up to 12 MB). The originals stay in the repo but are no longer referenced. Adding or replacing a photo means generating a web copy (Pillow lives in `../Expenses/receipt-agent/venv`; `ImageOps.exif_transpose`, `quality=82, progressive=True`) under a **new filename**, because `_headers` caches `web/*` for 30 days.
 - Reels have no `autoplay` attribute: they carry `class="reel-autoplay"`, `preload="none"` and a poster, and a small script plays them only after `window.load` and while on screen, so the 57 MB of reel video doesn't compete with the hero photos.
 
 - `favicon.ico` / `favicon.png` (192) / `apple-touch-icon.png` (180) — **gold "HK" initials on dark plum** (Georgia Bold, `#1b1024` / `rgb(255,196,92)`), linked from all five pages with `?v=2`; this is what Google shows beside the search result. Replaced the headshot crop 2026-11-13 — he does not want his face as the tab icon. Bump the `?v=` when the icon changes (the acting links live in `drafts/hk-acting-draft-3/build_live.py`).
