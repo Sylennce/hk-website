@@ -64,7 +64,7 @@ function fakeR2(size) {
       if (key !== 'acting/resources/Videos/a.mp4') return null;
       const range = opts.range.get('range');
       const m = range && /bytes=(\d+)-(\d*)/.exec(range);
-      const r = m ? { offset: +m[1], length: (m[2] ? +m[2] : size - 1) - +m[1] + 1 } : undefined;
+      const r = m ? { offset: +m[1], length: (m[2] ? +m[2] : size - 1) - +m[1] + 1, suffix: undefined } : undefined;
       return { size, range: r, httpEtag: '"e"', body: 'BODY', writeHttpMetadata: (h) => h.set('content-type', 'video/mp4') };
     },
   };

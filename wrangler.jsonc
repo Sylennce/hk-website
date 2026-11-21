@@ -11,7 +11,8 @@
     "directory": ".",
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "none"
+    "not_found_handling": "none",
+    "run_worker_first": ["/googlef482c8a3045fc8bc.html"]
   },
   "vars": {
     "SENDER": "Harrison Keen <hello@harrisonkeen.tech>",

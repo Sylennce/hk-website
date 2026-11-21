@@ -9,6 +9,7 @@
 //      and are served from here with Range support so seeking works.
 
 const MAX_FIELD = 5000;
+const GOOGLE_FILE = '/googlef482c8a3045fc8bc.html';
 
 export const FORMS = {
   'websites-enquiry': {
@@ -112,8 +113,10 @@ export async function serveMedia(request, env) {
   let length = size;
   if (request.headers.has('range') && obj.range) {
     const r = obj.range;
-    const offset = 'suffix' in r ? size - r.suffix : (r.offset ?? 0);
-    length = 'suffix' in r ? r.suffix : (r.length ?? size - offset);
+    // R2 hands back { offset, length } or { suffix }, sometimes with the unused keys present as undefined.
+    const suffix = typeof r.suffix === 'number';
+    const offset = suffix ? size - r.suffix : (r.offset ?? 0);
+    length = suffix ? r.suffix : (r.length ?? size - offset);
     h.set('content-range', `bytes ${offset}-${offset + length - 1}/${size}`);
     status = 206;
   }
@@ -125,6 +128,12 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/api/form') return handleForm(request, env);
+    // Search Console's ownership file must answer 200 at its exact .html path; the assets
+    // layer would 307 it to the extensionless URL (wrangler.jsonc run_worker_first).
+    if (url.pathname === GOOGLE_FILE) {
+      const r = await env.ASSETS.fetch(new Request(new URL(GOOGLE_FILE.replace(/\.html$/, ''), url), request));
+      return new Response(r.body, { status: r.status, headers: r.headers });
+    }
     if (request.method === 'GET' || request.method === 'HEAD') {
       const media = await serveMedia(request, env);
       if (media) return media;
