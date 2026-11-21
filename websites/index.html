@@ -102,6 +102,10 @@ section,footer{position:relative;z-index:2}
 .coupon b i{font-style:normal;font-size:.3em;letter-spacing:.06em;margin-left:.35em;color:var(--dim);font-weight:400}
 .coupon .all{font-size:16px;color:var(--ink)}
 .coupon p{margin-top:16px;font-size:13px;line-height:1.65;color:var(--dim)}
+/* Black Friday: the current prices are the sale prices */
+.bfrow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 16px;margin:0 auto 30px;font:400 13px "JetBrains Mono",ui-monospace,Menlo,monospace;color:var(--dim);letter-spacing:.04em}
+.bf{display:inline-block;padding:8px 15px;background:#d8392f;color:#fff;font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-radius:4px;transform:rotate(-2deg);box-shadow:0 10px 28px #d8392f55}
+.spec .amt .bft{display:block;font-size:12px;letter-spacing:.12em;color:#f0776c;margin-bottom:18px}
 .spec .inc{padding:40px}
 .spec .inc h3{font-size:12px;font-weight:400;letter-spacing:.12em;color:#7d766c;margin-bottom:18px}
 .spec ul{list-style:none;display:grid;gap:13px;font-size:14.5px;line-height:1.5}
@@ -162,6 +166,19 @@ form .btn{width:100%;padding:18px 30px;font-size:17px}
 footer{padding:26px 20px calc(30px + env(safe-area-inset-bottom));text-align:center;font-size:13px;color:var(--dim)}
 footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding:10px 4px}
 
+/* ---------- menu: only after the hero (same build as the acting page's, in this page's colours) ---------- */
+.nav{position:fixed;z-index:50;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:14px max(20px,calc((100% - 1100px)/2));background:rgba(14,12,11,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ink);
+  border-bottom:1px solid #fff2;transform:translateY(-101%);visibility:hidden;transition:transform .35s cubic-bezier(.2,.7,.1,1),visibility 0s .35s}
+.nav.on{transform:none;visibility:visible;transition:transform .35s cubic-bezier(.2,.7,.1,1)}
+.nav-name{font:300 22px/1 Fraunces,serif;letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.nav nav{display:flex;gap:clamp(12px,2.2vw,32px)}
+.nav nav a{color:var(--ink);text-decoration:none;font-size:12.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:6px 0;border-bottom:1px solid transparent;white-space:nowrap}
+.nav nav a:hover{border-bottom-color:var(--acc);color:var(--acc)}
+.nav nav a.home{color:var(--acc)}
+.nav nav a.cur{border-bottom-color:var(--acc)}
+section{scroll-margin-top:52px}
+
 /* ---------- floating CTA: follows you between the hero and the form ---------- */
 #pill{position:fixed;right:22px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:95;opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .3s,transform .3s}
 #pill.on{opacity:1;transform:none;pointer-events:auto}
@@ -190,6 +207,16 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
  .spec .amt{border-right:0;border-bottom:1px solid #fff2;padding:34px 26px}
  .spec .inc{padding:30px 26px}
  #pill{left:50%;right:auto;transform:translate(-50%,20px)}#pill.on{transform:translate(-50%,0)}
+ .nav-name{display:none}.nav{justify-content:center;padding-left:10px;padding-right:10px}
+ .nav nav{gap:9px}.nav nav a{font-size:10px;letter-spacing:.06em}
+ .bf{font-size:11px}
+}
+@media(max-width:370px){.nav nav{gap:6px}.nav nav a{letter-spacing:.01em}}
+/* touch: bigger tap areas, same look */
+@media(pointer:coarse){
+ .nav nav a,.nav-name{position:relative}
+ .nav-name:after{content:"";position:absolute;inset:-12px -8px}
+ .nav nav a:after{content:"";position:absolute;inset:-9px -4px -10px}
 }
 @media(max-aspect-ratio:3/4){
  .wall{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(6,1fr);inset:-3%}
@@ -219,6 +246,11 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
 <body>
 
 <div id="beam"></div><canvas id="dust"></canvas>
+
+<header class="nav" id="nav">
+  <a class="nav-name" href="#hero">Harrison Keen</a>
+  <nav aria-label="Sections"><a class="home" href="/">← Home</a><a href="#show">Sites</a><a href="#testimonials">Reviews</a><a href="#faq">FAQ</a><a href="#offer">Pricing</a><a href="#contact">Contact</a></nav>
+</header>
 
 <section id="hero">
   <div class="wall" id="wall"></div><div class="veil"></div>
@@ -268,11 +300,12 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
 </section>
 
 <section class="offer wrap" id="offer">
+  <p class="bfrow"><span class="bf">Black Friday sale</span><span>Sale prices, for a limited time.</span></p>
   <div class="deal">
   <div class="spec">
-    <div class="bar"><i></i><i></i><i></i><span>pricing</span></div>
+    <div class="bar"><i></i><i></i><i></i><span>black_friday_pricing</span></div>
     <div class="spec-body">
-      <div class="amt"><b>$119<i>CAD</i></b><span class="plus">All up.</span></div>
+      <div class="amt"><span class="bft">// BLACK FRIDAY PRICE</span><b>$119<i>CAD</i></b><span class="plus">All up.</span></div>
       <div class="inc"><h3>// INCLUDED</h3>
         <ul>
           <li>A custom design, built around you</li>
@@ -284,8 +317,8 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
         </ul></div>
     </div>
   </div>
-  <aside class="coupon" aria-label="Special offer">
-    <h3>// SPECIAL OFFER</h3>
+  <aside class="coupon" aria-label="Black Friday special">
+    <h3>// BLACK FRIDAY SPECIAL</h3>
     <b>$99<i>CAD</i></b>
     <span class="all">Everything included</span>
     <p>If you pay up front.</p>
@@ -316,7 +349,7 @@ footer a{color:var(--dim);text-underline-offset:3px;display:inline-block;padding
 
 <script>
 const S=[["haylie-hansen","Haylie Hansen","Sweet one minute, a little bit mean the next."],
-["joey-mckerricher","Joey Mckerricher","Don't make him ask twice."],
+["joseph-mckerricher","Joseph Mckerricher","Don't make him ask twice.","https://josephmckerricher.com/"],
 ["brooklyn-hislop","Brooklyn Hislop","Make a wish."],
 ["harrison-keen","Harrison Keen","Ready for his close-up.","https://harrisonkeen.tech/acting/"],
 ["shy-miller","Shy Miller","Living the good life."],
@@ -374,6 +407,14 @@ function arm(){clearTimeout(due);due=setTimeout(()=>inView?show(ai+1):arm(),LEN*
 $('thumbs').onclick=e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)};
 show(0);
 new IntersectionObserver(([e])=>{inView=e.isIntersecting;if(RM)return;if(!inView)cur.pause();else if(pend)pend();else cur.play().catch(()=>{})},{threshold:.25}).observe($('show').querySelector('.stage'));
+
+/* ---------- menu: appears once the hero is gone; the underline follows the section under the top third ---------- */
+const SPY=['show','testimonials','faq','offer','contact'];let spyNow;
+function navScroll(){$('nav').classList.toggle('on',scrollY>$('hero').offsetHeight-60);
+  let c=null;const line=innerHeight*.35;SPY.forEach(id=>{if($(id).getBoundingClientRect().top<=line)c=id});
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)c='contact';
+  if(c===spyNow)return;spyNow=c;$('nav').querySelectorAll('nav a').forEach(a=>a.classList.toggle('cur',a.getAttribute('href')==='#'+c))}
+addEventListener('scroll',navScroll,{passive:true});navScroll();
 
 /* ---------- floating CTA ---------- */
 const seen={hero:true,contact:false,promise:false};
