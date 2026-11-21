@@ -1,0 +1,24 @@
+.git
+.gitignore
+.assetsignore
+.wrangler
+.superpowers
+.DS_Store
+node_modules
+drafts
+docs
+worker
+test
+wrangler.jsonc
+netlify.toml
+CLAUDE.md
+*.md
+# Over the 25 MiB asset limit: served from R2 (bucket hk-media) by worker/index.js
+acting/resources/*.mp4
+acting/resources/Videos/*.mp4
+# Same rule as .gitignore: personal PDFs never ship, except the two the site links to
+*.pdf
+!acting/HarrisonKeen_ActingCV.pdf
+!harrison_keen_resume.pdf
+*.heic
+deploy.sh

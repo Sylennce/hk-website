@@ -1,0 +1,4 @@
+# Web-sized photos and reel posters. Browsers keep them for 30 days without
+# re-checking, so a replaced image needs a new filename.
+/acting/resources/web/*
+  Cache-Control: public, max-age=2592000
