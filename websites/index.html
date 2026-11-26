@@ -300,7 +300,7 @@ section{scroll-margin-top:52px}
   <div class="sectit"><div class="eyebrow">FAQ</div><h2>Good to know.</h2></div>
   <div class="qs">
     <details><summary>I already have Instagram. Why do I need a website?</summary><p>I'm an actor too, and some of my best work can't go on Instagram because it gets copyright-flagged. On my site, it's right there. Recently someone watched one of my clips, thought I'd be perfect for a character they were casting, and hired me. They'd never have seen it on Instagram, Linktree or IMDb, where it's buried behind too many links. Your site is where everything lives, so whatever someone needs from you, they can find it.</p></details>
-    <details><summary>Can I update it when I have new work?</summary><p>Yes. There's an optional maintenance plan for exactly that: new credits, new representation, new material, anything you want changed. It's a small subscription, and you only take it if you want it. The site itself has no monthly fees.</p></details>
+    <details><summary>Can I update it when I have new work?</summary><p>Yes, and you can do it yourself. Your site comes with its own editor, so you can add new credits, representation, photos and clips whenever you like, without waiting on me. It's free and included in the price, and there are no monthly fees.</p></details>
     <details><summary>What if I don't like it?</summary><p>Then you don't pay. I'll show you some free mockup options first, and you only pay if you want to continue and build your actual site.</p></details>
   </div>
 </section>
@@ -348,13 +348,13 @@ section{scroll-margin-top:52px}
 <a class="btn" id="pill" href="#contact">Build my site</a>
 
 <script>
-const S=[["haylie-hansen","Haylie Hansen","Sweet one minute, a little bit mean the next."],
+const S=[["haylie-hansen","Haylie Hansen","Sweet one minute, a little bit mean the next.","https://hayliehansen.com/"],
 ["joseph-mckerricher","Joseph Mckerricher","Don't make him ask twice.","https://josephmckerricher.com/"],
-["brooklyn-hislop","Brooklyn Hislop","Make a wish."],
+["brooklyn-hislop","Brooklyn Hislop","Make a wish.","https://brooklynhislop.com/"],
 ["harrison-keen","Harrison Keen","Ready for his close-up.","https://harrisonkeen.tech/acting/"],
-["shy-miller","Shy Miller","Living the good life."],
-["michael-wattel","Michael Wattel","Money can't fix everything."]];
-const SOON=new Set(['brooklyn-hislop','shy-miller']);   // not public yet: caption says Coming Soon, no link
+["noah-stephens","Noah Stephens","Charm comes easy.","https://noahstephens.me/"],
+["michael-wattel","Michael Wattel","Money can't fix everything.","https://michaelwattel.com/"]];
+const SOON=new Set([]);   // slugs not public yet: caption says Coming Soon, no link (only live sites are shown)
 const $=id=>document.getElementById(id);
 const img=f=>`<img class="fill" src="images/${f}.jpg" alt="">`;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
