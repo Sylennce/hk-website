@@ -84,7 +84,7 @@ section,footer{position:relative;z-index:2}
 
 /* ---------- price: a spec sheet ---------- */
 .offer{padding-top:40px}
-.deal{display:grid;grid-template-columns:1fr 250px;gap:22px;max-width:1110px;margin:0 auto;align-items:stretch}
+.deal{max-width:880px;margin:0 auto}
 .spec{border:1px solid #fff2;border-radius:14px;overflow:hidden;background:#100f0e;box-shadow:0 40px 90px #000c;font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
 .spec .bar span{background:none;padding:0;margin-left:8px;letter-spacing:.08em}
 .spec-body{display:grid;grid-template-columns:1fr 1.15fr;background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:28px 28px}
@@ -94,14 +94,6 @@ section,footer{position:relative;z-index:2}
 .spec .amt .plus{display:block;margin-top:12px;font-size:17px;color:var(--ink)}
 .spec .amt p{margin-top:22px;font-size:13px;line-height:1.7;color:var(--dim)}
 .spec li small{display:block;font-size:12.5px;color:var(--dim)}
-.coupon{position:relative;border:1.5px dashed #e8b96a99;border-radius:14px;background:#17130e;padding:34px 26px;display:flex;flex-direction:column;justify-content:center;text-align:center;font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;box-shadow:0 40px 90px #000c}
-.coupon:before,.coupon:after{content:"";position:absolute;left:50%;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--bg);border:1.5px dashed #e8b96a99}
-.coupon:before{top:-14px;clip-path:inset(50% 0 0 0)}.coupon:after{bottom:-14px;clip-path:inset(0 0 50% 0)}
-.coupon h3{font-size:12px;font-weight:400;letter-spacing:.14em;color:var(--acc)}
-.coupon b{display:block;margin:16px 0 6px;font-weight:600;font-size:clamp(52px,5.4vw,64px);line-height:1;letter-spacing:-.04em;color:var(--acc)}
-.coupon b i{font-style:normal;font-size:.3em;letter-spacing:.06em;margin-left:.35em;color:var(--dim);font-weight:400}
-.coupon .all{font-size:16px;color:var(--ink)}
-.coupon p{margin-top:16px;font-size:13px;line-height:1.65;color:var(--dim)}
 /* Black Friday: the current prices are the sale prices */
 .bfrow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 16px;margin:0 auto 30px;font:400 13px "JetBrains Mono",ui-monospace,Menlo,monospace;color:var(--dim);letter-spacing:.04em}
 .bf{display:inline-block;padding:8px 15px;background:#d8392f;color:#fff;font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-radius:4px;transform:rotate(-2deg);box-shadow:0 10px 28px #d8392f55}
@@ -202,9 +194,7 @@ section{scroll-margin-top:52px}
  .cA .ticks{display:inline-grid;text-align:left}
  .alt{justify-content:center}
  .thumbs{grid-template-columns:repeat(3,1fr)}
- .deal{grid-template-columns:1fr;gap:28px}
- .coupon{padding:30px 26px}
- .spec-body{grid-template-columns:1fr}
+  .spec-body{grid-template-columns:1fr}
  .spec .amt{border-right:0;border-bottom:1px solid #fff2;padding:34px 26px}
  .spec .inc{padding:30px 26px}
  #pill{left:50%;right:auto;transform:translate(-50%,20px)}#pill.on{transform:translate(-50%,0)}
@@ -298,6 +288,11 @@ section{scroll-margin-top:52px}
       <blockquote>Harrison is a joy to collaborate with, his technical and artistic talent is to thank for this awesome site he made for me.</blockquote>
       <figcaption><b>Kylan M.</b> · Actor · 2026</figcaption>
     </figure>
+    <figure>
+      <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>Very easy to work with. Extremely creative and smart with his design. If you ever have any questions, just ask and he’ll figure it out!</blockquote>
+      <figcaption><b>Noah S.</b> · Actor · 2026</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -311,12 +306,12 @@ section{scroll-margin-top:52px}
 </section>
 
 <section class="offer wrap" id="offer">
-  <p class="bfrow"><span class="bf">Black Friday sale</span><span>Sale prices, for a limited time.</span></p>
+  <p class="bfrow"><span class="bf">Black Friday sale</span><span>Sale price, for a limited time.</span></p>
   <div class="deal">
   <div class="spec">
     <div class="bar"><i></i><i></i><i></i><span>black_friday_pricing</span></div>
     <div class="spec-body">
-      <div class="amt"><span class="bft">// BLACK FRIDAY PRICE</span><b>$119<i>CAD</i></b><span class="plus">All up.</span></div>
+      <div class="amt"><span class="bft">// BLACK FRIDAY PRICE</span><b>$129<i>CAD</i></b><span class="plus">All up.</span></div>
       <div class="inc"><h3>// INCLUDED</h3>
         <ul>
           <li>A custom design, built around you</li>
@@ -328,12 +323,6 @@ section{scroll-margin-top:52px}
         </ul></div>
     </div>
   </div>
-  <aside class="coupon" aria-label="Black Friday special">
-    <h3>// BLACK FRIDAY SPECIAL</h3>
-    <b>$99<i>CAD</i></b>
-    <span class="all">Everything included</span>
-    <p>If you pay up front.</p>
-  </aside>
   </div>
   <div class="promise" id="promise">
     <p>You see your site before you pay.</p>
